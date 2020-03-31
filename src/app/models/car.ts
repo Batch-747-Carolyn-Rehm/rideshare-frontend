@@ -18,11 +18,6 @@ export class Car {
     seats: number;
 
     /**
-     * Car: seatsAvailable
-     */
-    seatsAvailable: number;
-  
-    /**
      * Car: car make
      */
     make: string;
