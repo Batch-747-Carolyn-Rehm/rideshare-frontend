@@ -13,7 +13,7 @@ const port = '8080';
 /**
  * google map api key 
  */
-const googleKey = '';
+const googleKey = 'AIzaSyBNzkX_emY9Snwm8tyxShLHkKRX49Sn4v8';
  /**
    * This is the environment config.
    */
@@ -28,6 +28,7 @@ export const environment = {
   carUri: `${baseUri}:${port}/cars/`,
   adminUri: `${baseUri}:${port}/admins/`,
   googleMapKey: `${googleKey}`,
+  filterUri: `${baseUri}:${port}/users/filter`
 };
 
 /*

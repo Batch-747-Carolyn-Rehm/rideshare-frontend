@@ -98,4 +98,6 @@ export class User {
      * User: car-> calls Car constructor, Car()
      */
     car: Car = new Car();
+
+    ride: {distance: number, duration: number};
 }
