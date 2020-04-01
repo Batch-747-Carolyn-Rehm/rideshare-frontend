@@ -119,6 +119,7 @@ submitUser() {
     this.user.wState = this.user.hState;
     this.user.wCity = this.user.hCity;
     this.user.wZip = this.user.hZip;
+    this.user.car = null;
     let driver = <HTMLInputElement> document.getElementById("driver");
     let rider = <HTMLInputElement> document.getElementById("rider");
 
