@@ -1,5 +1,3 @@
-import { User } from './user';
-
 export class Car {
 
     /**
@@ -18,6 +16,11 @@ export class Car {
     seats: number;
 
     /**
+     * Car: seatsAvailable
+     */
+    seatsAvailable: number;
+  
+    /**
      * Car: car make
      */
     make: string;
@@ -31,9 +34,4 @@ export class Car {
      * Car: year of the car
      */
     year: number;
-
-    /**
-     * Car: user-> calls User constructor, User()
-     */
-    user: User = new User();
 }
