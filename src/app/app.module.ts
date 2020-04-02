@@ -36,7 +36,9 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
+import { DriverListEntryComponent } from './components/driver-list-entry/driver-list-entry.component';
 
+import { SessionService } from './services/session-service/session.service';
 
 
 @NgModule({
@@ -56,7 +58,6 @@ import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
     DriverInfoComponent,
     LandingComponent,
     SignupModalComponent,
-    LandingPageComponent,
     ProfileContactComponent,
     ProfileCarComponent,
     ProfileLocationComponent,
@@ -66,7 +67,8 @@ import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
     UserRegisterComponent,
     HomePageComponent,
     BsNavbarComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    DriverListEntryComponent
     
   ],
   imports: [
@@ -86,7 +88,8 @@ import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
     AuthService,
     ValidationService,
     BsModalService,
-    LogService
+    LogService,
+    SessionService
   ],
   bootstrap: [AppComponent]
 })
