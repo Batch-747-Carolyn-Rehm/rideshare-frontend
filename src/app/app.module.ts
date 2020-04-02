@@ -65,7 +65,8 @@ import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
     DriverListComponent,
     UserRegisterComponent,
     HomePageComponent,
-    BsNavbarComponent
+    BsNavbarComponent,
+    LandingPageComponent
     
   ],
   imports: [
