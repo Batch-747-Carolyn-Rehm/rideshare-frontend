@@ -1,6 +1,6 @@
 <div class="container">
-    <div *ngIf="!allAvailableCars.length" class="text text-center"><h2>No Available Driver Found</h2></div>
-    <div *ngIf="availableCars.length">
+    <div *ngIf="!allAvailableDrivers.length" class="text text-center"><h2>No Available Driver Found</h2></div>
+    <div *ngIf="availableDrivers.length">
         <h2>Available Drivers</h2>
         <div id="input-field" class="input-group text text-right">
             <input type="text" name="searchByName" placeholder="Search Driver By Name" [(ngModel)]="searchName"/>
