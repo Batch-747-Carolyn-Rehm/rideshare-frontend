@@ -55,13 +55,13 @@ export class BsNavbarComponent implements OnInit {
   }
 
    /**
-   * Function that takes no parameters. 
+   * Function that takes no parameters.
    * It will clear the sesssion storage.
-   * @return {void} 
-   * 
+   * @return {void}
+   *
    */
 
-   
+
   logout() {
     this.authService.user = {};
     this.name = '';
