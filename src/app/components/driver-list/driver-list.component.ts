@@ -15,21 +15,8 @@ import { Car } from 'src/app/models/car';
   templateUrl: './driver-list.component.html',
   styleUrls: ['./driver-list.component.css']
 })
-
-/**
- * The DriverContactModel component
- */
-
 export class DriverListComponent implements OnInit {
 
-  /**
-   * sets location to string
-   * sets mapProperties
-   * sets avaibleCars to Array
-   * sets drivers to Array
-   * @type {string}
-   * @memberof DriverListComponent
-   */
   currentUserId: number;
   location: string = 'Morgantown, WV';
   mapProperties: {};
@@ -44,22 +31,9 @@ export class DriverListComponent implements OnInit {
   @ViewChild('map', null) mapElement: any;
   map: google.maps.Map;
 
-  /**
-   * This is a constructor
-   * Creates an instance of DriverListComponent.
-   * @param {HttpClient} http
-   * @param {UserService} userService
-   * @memberof DriverListComponent
-   */
   constructor(private http: HttpClient, private userService: UserService,
-    private batchService: BatchService, private filterService: FilterService,
-    private authService: AuthService) { }
+    private batchService: BatchService, private filterService: FilterService) { }
 
-  /**
-   * on init is calls on location of user
-   * pushes information to driver
-   * @memberof DriverListComponent
-   */
   ngOnInit() {
     this.batches = this.batchService.getAllBatches();
     this.getGoogleApi();
@@ -79,7 +53,6 @@ export class DriverListComponent implements OnInit {
 
       this.filterService.getFilteredDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch).subscribe(
         (res: Array<User>) => {
-          console.log(this.selectedFilters, this.currentUserId, this.selectedBatch);
           res.forEach(element => {
             this.drivers.push({
               'id': element.userId,
@@ -97,22 +70,11 @@ export class DriverListComponent implements OnInit {
         });
     });
   }
-  /**
-   *
-   *
-   * @param {*} ms
-   * @returns
-   * @memberof DriverListComponent
-   */
+
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  /**
-   * This function calls the Google api
-   *
-   * @memberof DriverListComponent
-   */
   getGoogleApi() {
     this.http.get(`${environment.loginUri}getGoogleApi`)
       .subscribe(
@@ -129,14 +91,7 @@ export class DriverListComponent implements OnInit {
         }
       );
   }
-  
-  /**
-   * This function shows drivers on the map
-   *
-   * @param {*} origin
-   * @param {*} drivers
-   * @memberof DriverListComponent
-   */
+
   showDriversOnMap(origin, drivers) {
     drivers.forEach(element => {
       var directionsService = new google.maps.DirectionsService;
@@ -148,21 +103,14 @@ export class DriverListComponent implements OnInit {
     });
   }
 
-  /**
-   * This function shows the route from the driver to endpoint
-   *
-   * @param {*} origin
-   * @param {*} destination
-   * @param {*} service
-   * @param {*} display
-   * @memberof DriverListComponent
-   */
+
   displayRoute(origin, destination, service, display) {
     service.route({
       origin: origin,
       destination: destination,
       travelMode: 'DRIVING',
-    }, function(response, status) {
+      //avoidTolls: true
+    }, function (response, status) {
       if (status === 'OK') {
         display.setDirections(response);
       } else {
@@ -171,13 +119,6 @@ export class DriverListComponent implements OnInit {
     });
   }
 
-  /**
-   * This function populates a list of drivers on the page
-   *
-   * @param {*} origin
-   * @param {*} drivers
-   * @memberof DriverListComponent
-   */
   displayDriversList() {
     let origins = [];
     //set origin
@@ -209,16 +150,16 @@ export class DriverListComponent implements OnInit {
   filterDrivers() {
     this.filterService.getFilteredDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch)
       .subscribe((res:User[]) => {
-        res.forEach((element, index) => {
-          this.drivers[index] = {
-            'id': element.userId,
-            'name': element.firstName + " " + element.lastName,
-            'origin': element.hCity + "," + element.hState,
-            'email': element.email,
-            'phone': element.phoneNumber,
+        this.drivers = res.map((driver)=>{
+          return {
+            'id': driver.userId,
+            'name': driver.firstName + " " + driver.lastName,
+            'origin': driver.hCity + "," + driver.hState,
+            'email': driver.email,
+            'phone': driver.phoneNumber,
             'ride': { distance: 0, duration: 0 }
-          };
-        });
+          }
+        })
         this.displayDriversList();
         this.showDriversOnMap(this.location, this.drivers);
       });

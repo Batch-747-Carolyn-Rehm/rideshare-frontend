@@ -10,7 +10,7 @@ export class ValidationService {
   constructor() { }
   
    /** 
-  * This function validates the number of seats of the car.
+  * this function validates the number of seats of the car.
   * @function
   * @returns {boolean}
   */
@@ -19,25 +19,20 @@ export class ValidationService {
   }
 
 
-  /**
-   * This function checks for special characters in the username and validates the length
-   * @param userName 
-   */
+//   this function checks for special characters in the username and validates the length
   validateUserName(userName: string) {
 		return /^\w+\.?\w+$/.test(userName) && userName.length >= 3 && userName.length <= 12;
 	}
 
-  	/**
-	   * This function validates the length of the name and checks if there is any numeric values in the name string.
-	   * @param name 
-	   */
+  /**
+	 * This function is validates the length of the name and checks if there is any numeric values in the name string.
+	 */
 	validateName(name: string) {
 		return /^[a-zA-Z\u00C0-\u017F]+[- ]?[a-zA-Z\u00C0-\u017F]+$/.test(name) && name.length < 30;
 	}
 
   /**
 	 * This function checks the email that the user entered.
-	 * @param email
 	 */
 	validateEmail(email: string) {
 		return /^\w+\.?\w+@\w+\.[a-zA-Z]{2,4}$/.test(email);
@@ -45,7 +40,6 @@ export class ValidationService {
 
   /**
 	 * This function validates the phone number.
-	 * @param phone
 	 */
 	validatePhone(phone: string) {
 		return /^\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/.test(phone);
@@ -53,7 +47,6 @@ export class ValidationService {
   
   /**
 	 * This function formats the name string.
-	 * @param name
 	 */
 	nameFormat(name: string) {
 
@@ -76,7 +69,6 @@ export class ValidationService {
 
   /**
 	 * This function formats the phone number.
-	 * @param phone
 	 */
 	phoneFormat(phone: string) {
 		return phone.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");

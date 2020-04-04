@@ -10,15 +10,8 @@ export class AdminService {
 
   url: string = environment.adminUri;
 
-  /**
-   * This is the constructor
-   * @param http Creates HttpClient instance
-   */
   constructor(private http: HttpClient) { }
 
-  /**
-   * This function gets a list of all admins
-   */
   getAllAdmins() {
 		return this.http.get<Admin[]>(this.url);
 	}

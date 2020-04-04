@@ -19,6 +19,7 @@ export class DriverListEntryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

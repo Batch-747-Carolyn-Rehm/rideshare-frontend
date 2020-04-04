@@ -1,45 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { User } from 'src/app/models/user';
-/**
- *
- *
- * @export
- * @class ProfileLocationComponent
- * @implements {OnInit}
- */
+
 @Component({
   selector: 'app-profile-location',
   templateUrl: './profile-location.component.html',
   styleUrls: ['./profile-location.component.css']
 })
 export class ProfileLocationComponent implements OnInit {
-/**
- *
- *
- * @type {number}
- * @memberof ProfileLocationComponent
- */
-zipcode: number;
+
+  zipcode: number;
   city:string;
   address:string;
   address2:string;
   hState: string;
   currentUser: User;
   success :string;
-  fail: string;
-/**
- *Creates an instance of ProfileLocationComponent.
- * @param {UserService} userService
- * @memberof ProfileLocationComponent
- */
-constructor(private userService: UserService) { }
-/**
- * OnInit function
- *
- * @memberof ProfileLocationComponent
- */
-ngOnInit() {
+
+  constructor(private userService: UserService) { }
+
+  ngOnInit() {
    this.userService.getUserById2(sessionStorage.getItem("userid")).subscribe((response)=>{
       this.currentUser = response;
       this.zipcode = response.hZip;
@@ -50,26 +30,15 @@ ngOnInit() {
 
     });
   }
-/**
- * Function that updates contact information
- *
- * @memberof ProfileLocationComponent
- */
-updatesContactInfo(){
+
+  updatesContactInfo(){
     this.currentUser.hZip = this.zipcode;
     this.currentUser.hCity = this.city;
     this.currentUser.hAddress = this.address;
     this.currentUser.wAddress = this.address2;
     this.currentUser.hState = this.hState;
-    this.userService.updateUserInfo(this.currentUser).subscribe(response => {
-      this.success = "";
-      this.fail = "";
-      if (Object.keys(response).length === 0) {
-        this.success = "Updated Successfully!";
-      } else {
-        this.fail = "Invalid address!";
-      }
-    });
-    
+    //console.log(this.currentUser);
+    this.userService.updateUserInfo(this.currentUser);
+    this.success = "Updated Successfully!";
   }
 }

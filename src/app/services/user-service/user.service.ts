@@ -51,7 +51,7 @@ export class UserService {
 	}
 	
 	/**
-	 * A GET method for one user by numeric id
+	 * A GET method for one user
 	 * @param idParam 
 	 */
 	getUserById(idParam: number){
@@ -62,10 +62,7 @@ export class UserService {
 
 	}
 
-	/**
-	 * A GET method for one user by string id
-	 * @param idParam2 
-	 */
+	 
 	getUserById2(idParam2: String): Observable<User>{
 		
 		//console.log(this.url)
@@ -131,7 +128,7 @@ export class UserService {
 				this.user.isDriver = isDriver;
 				this.user.isAcceptingRides = (this.user.active && isDriver);
 
-				this.http.put(this.url, this.user).subscribe(
+				this.http.put(this.url+userId, this.user).subscribe(
 					(response) => {
 						this.authService.user = response;
 						this.log.info(JSON.stringify(response));
@@ -180,9 +177,8 @@ export class UserService {
 
 	updateUserInfo(user: User) {
 		//console.log(user);
-		return this.http.put(this.url, user);
+		return this.http.put(this.url, user).toPromise();
 	}
-	
 	/**
 	 * A GET method that retrieves a driver by Id
 	 * @param id 
@@ -206,7 +202,6 @@ export class UserService {
 	  getRidersForLocation(location: string): Observable <any>{
 		return this.http.get(this.url + '?is-driver=false&location='+ location)
 	  }
-
     /**
      * A GET method that shows all users
      */
@@ -232,10 +227,6 @@ export class UserService {
       this.http.put(`${this.url + user.userId}`,this.body,this.httpOptions).subscribe();
 	}
 	
-	/**
-	 * This function gets riders based on location
-	 * @param location 
-	 */
 	getRidersForLocation1(location: string): Observable <any>{
 		return this.http.get(this.url + 'driver/'+ location)
 	}

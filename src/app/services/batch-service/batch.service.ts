@@ -31,10 +31,6 @@ export class BatchService {
 		return this.batches;
 	}
 
-	/**
-	 * This function fetches all the batches based on input location
-	 * @param location
-	 */
 	getAllBatchesByLocation(location: string): Observable<Batch[]> {
 		return this.http.get<Batch[]>(`${this.url}?location=${location}`);
 	}

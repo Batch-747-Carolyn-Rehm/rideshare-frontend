@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-
 export class LogService {
-  
   /**
    * A function that logs a debug message
    * @param message 

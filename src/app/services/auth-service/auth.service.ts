@@ -2,8 +2,6 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { Admin } from 'src/app/models/admin';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -23,10 +21,10 @@ export class AuthService {
 	 * This is the constructor
 	 * @param router Creates a router instance
 	 */
-	constructor(private router: Router, private http: HttpClient) { }
+	constructor(private router: Router) { }
 
 	/**
-	 * A user object is created
+	 * An user object is created
 	 */
 	public user: any = {};
 	public admin: Admin = new Admin();
@@ -55,8 +53,6 @@ export class AuthService {
 
 	/**
 	 * This function returns an emitter.
-	 * @param admin
-	 * @param userName
 	 */
 
 	loginAsAdmin(admin: Admin, userName: string) {
@@ -71,9 +67,5 @@ export class AuthService {
 
 	getEmitter() {
 		return this.fireIsLoggedIn;
-	}
-
-	authenticateUserCredential(userName) {
-		return this.http.get(`${environment.loginUri}?userName=${userName}&passWord='placeholder'`);
 	}
 }

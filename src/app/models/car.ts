@@ -1,37 +1,32 @@
-export class Car {
+import { User } from './user';
 
+export class Car {
     /**
-     * Car: car id
+     * Set Car model
      */
     carId: number;
-
     /**
-     * Car: car color  
+     * Set color as a string 
      */
     color: string;
-
     /**
-     * Car: number of seats
+     * Set set as a number
      */
     seats: number;
-
     /**
-     * Car: seatsAvailable
-     */
-    seatsAvailable: number;
-  
-    /**
-     * Car: car make
+     * Set make as a string
      */
     make: string;
-
     /**
-     * Car: car model
+     * Set model as a string
      */
     model: string;
-
     /**
-     * Car: year of the car
+     * Set year as a number
      */
     year: number;
+    /**
+     * Attached a user object
+     */
+    user: User = new User();
 }

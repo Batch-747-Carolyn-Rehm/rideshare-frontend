@@ -1,12 +1,11 @@
 export class Batch {
 
     /**
-     * Batch: batch number
+     * Set Batch model
      */
     batchNumber: number;
-
     /**
-     * Batch: location of batch
+     * Set batch location as a string
      */
     batchLocation: string;
 }

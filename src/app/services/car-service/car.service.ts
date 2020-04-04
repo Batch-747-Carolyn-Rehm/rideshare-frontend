@@ -40,7 +40,7 @@ export class CarService {
 	}
 
 	/**
-	 * This function returns a car by numeric user ID
+	 * This function returns an car by user ID.
 	 * @param userId 
 	 */
 
@@ -48,42 +48,44 @@ export class CarService {
 		return this.http.get<Car>(`${this.url}users/${userId}`).toPromise();
 	}
 
-	/**
-	 * This function returns a car by string user ID
-	 * @param userId 
-	 */
 	getCarByUserId2(userId: string): Observable<Car> {
 		return this.http.get<Car>(`${this.url}users/${userId}`);
 	}
 
-	/**
-	 * This function returns response as a promise
-	 * @param car
-	 */
 	updateCarInfo(car: Car) {
-		console.log(car);
-		console.log(this.url);
-		return this.http.put(this.url, car);
+		//console.log(user);
+		return this.http.put(this.url, car).toPromise();
 	}
 
 
 
 	/**
 	 * This function creates a car.
-	 * @param car
-	 * @param userId
+	 * @param car 
+	 * @param userId 
 	 */
-
+	
 	createCar(car, userId) {
 
 		this.user.userId = userId;
 		car.user = this.user;
-		return this.http.post(this.url, car);
+
+		this.http.post(this.url, car, {observe: 'response'}).subscribe(
+			(response) => {
+				if (response) {
+					this.userService.updateIsDriver(true, userId);
+					this.router.navigate(['car']);
+				}
+			},
+			(error) => {
+				console.warn(error);
+			}
+		);
 	}
 
 	/**
 	 * This function removes a Car.
-	 * @param carId
+	 * @param carId 
 	 */
 
 	removeCar(carId: number) {

@@ -1,21 +1,9 @@
 *{
     font-family:"Overpass",sans-serif;
 }
-/**success*/
-.success {
-    border-radius: 5px;
-    color: green;
-    font-size: 16px;
-}
 h5{
 
     float:left;
-}
-
-.error {
-    color: red;
-    margin: 0;
-    text-align: left;
 }
 
 .col-sm-6{
@@ -23,13 +11,18 @@ h5{
     border:1px solid black;
 }
 .mainContainer {
-    margin: 5% auto;
+    margin: 8% auto;
     width: 100%;  
     border:1px outset gray;
     box-shadow:2px 2px 5px rgb(212, 212, 212);
     background-color:rgb(243, 243, 243);
     padding-bottom:5%;
     border-radius: 10px;
+}
+.innercontainer{
+    display:inline-block;
+    margin-top:40px;
+    
 }
 .fa-users{
     z-index: 2;
@@ -41,22 +34,19 @@ h5{
     background-color: white;
     display:inline;
 }
-.form-control {
-    width: 230px;
-    border-radius:15px;
-}
-.row{
-    text-align:center;
-}
-label{
-    font-size:12px;
-}
-h4{
+.title{
     text-align:left;
     font-weight:bold;
 }
+
+.form-control {
+    width: 230px;
+    border-radius:15px;
+   
+}
+
 .myBtn {
-    margin-top:15px;
+    margin-top:30px;
     background-color: #F26925;
     color:white;
     width:150px;
@@ -67,6 +57,7 @@ h4{
     letter-spacing:1px;
     height:45px;
     display:inline-block;
+    text-align:center;
 }
  
 .myBtn:hover{
@@ -85,80 +76,52 @@ h4{
          top: 15%;
          left: 50%;
     }
-    .form-control{
-        width:100%;
-    }
 }
 
-@media(min-width: 1068px){
+@media(min-width: 992px){
     .mainContainer {
-        width: 80%;
+        width: 50%;
         position: absolute;
         margin-top:0%;
-        left: 80%;
-    }
-    label{
-        font-size:17px;
-    }
-    .form-control{
-        width:150%;
+         left: 80%;
     }
 }
-@media(max-width: 1068px){
-    .mainContainer {
-        width: 80%;
-        position: inherit;
-        margin-top:10%;
-        left: 80%;
-    }
-    label{
-        font-size:17px;
-    }
-    .form-control{
-        width:150%;
-    }
-}
-@media(max-width:580px){
+@media(max-width:560px){
     .mainContainer{
         width:80%;
         position:inherit;
         left:0%;
-        
     }
     .form-control{
-        width:100%
-    }
-    label{
-        font-size:15px;
-    }
-}
-@media(min-width:1474px){
-    .mainContainer{
-        margin-top:15px;
-        width:60%;
-        position:absolute;
-        left:80%;
-    }
-    .form-control{
-        width:150%;
+        width:100%;
     }
 }
 @media(max-width:420px){
-    .fa-user{
+    .fa-users{
         font-size:20px;
         padding:10px;
     }
-}
+ }
 
-@media(max-width:375px){
-    h4{
-        font-size:20px;
+ @media(max-width:580px){
+     .mainContainer{
+         width:65%;
+     }
+     .form-control{
+         width:80%;
+     }
+ }
+
+ @media(max-width:340px){
+
+    .mainContainer{
+        width:80%;
+    }
+    .form-control{
+        width:80%;
+    }
+    button{
+        width:50%;
     }
 }
 
-@media(max-width:345px){
-    .fa-user{
-        font-size:18px;
-        padding:8px;
-    }
-}

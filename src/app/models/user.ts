@@ -1,101 +1,56 @@
 import { Batch } from './batch';
 import { Car } from './car';
 
-export class User {
 
+export class User {
     /**
-     * User: user id
+     * Set User model
      */
     userId: number;
-
     /**
-     * User: username
+     * Set username as a string
      */
     userName: string;
-
     /**
-     * User: batch-> calls Batch constructor, Batch()
+     * Attached a batch object
      */
     batch: Batch = new Batch();
-
     /**
-     * User: first name
+     * Set first name as a string
      */
     firstName: string;
-
     /**
-     * User: last name
+     * Set last name as a string
      */
     lastName: string;
-
     /**
-     * User: email
+     * Set email as a string
      */
     email: string;
-
     /**
-     * User: phone number as string
+     * Set phone number as a string
      */
     phoneNumber: string;
-
     /**
-     * User: is the user active
+     * Set active as a boolean
      */
     active: boolean;
-
     /**
-     * User: is the user a driver
+     * Set driver as a boolean
      */
     isDriver: boolean;
-
     /**
-     * User: is the user accepting rides
+     * Set accepting ride as a boolean
      */
     isAcceptingRides: boolean;
-
-    /**
-     * User: home state
-     */
     hState: string;
-
-    /**
-     * User: home address
-     */
     hAddress: string;
-
-    /**
-     * User: home city
-     */
     hCity: string;
-
-    /**
-     * User: home zipcode
-     */
     hZip: number;
-
-    /**
-     * User: work address
-     */
     wAddress: string;
-
-    /**
-     * User: work city
-     */
-
     wCity: string;
-
-    /**
-     * User: work state
-     */
     wState: string;
-
-    /**
-     * User: work zipcode
-     */
     wZip: number;
-
-    /**
-     * User: car-> calls Car constructor, Car()
-     */
-    car: Car = new Car();
+    ride: {distance: number, duration: number};
+    car: Car;
 }
