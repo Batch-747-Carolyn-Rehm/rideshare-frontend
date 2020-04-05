@@ -38,6 +38,7 @@ export class DriverListComponent implements OnInit {
   geocoder: any;
   sortDirection: string = "";
   sortBy: string = "";
+  
 
   @ViewChild('map', null) mapElement: any;
   map: google.maps.Map;
@@ -61,7 +62,7 @@ export class DriverListComponent implements OnInit {
     this.batches = this.batchService.getAllBatches();
     this.getGoogleApi();
     this.currentUserId = JSON.parse(sessionStorage.getItem("userid"));
-
+    
 
     this.sleep(2500).then(() => {
       this.mapProperties = {
@@ -86,18 +87,18 @@ export class DriverListComponent implements OnInit {
   }
 
   /**
- * This function calls the Google api
- *
- * @memberof DriverListComponent
- */
-  getGoogleApi()  {
+   * This function calls the Google api
+   *
+   * @memberof DriverListComponent
+   */
+  getGoogleApi() {
     this.http.get(`${environment.loginUri}getGoogleApi`)
       .subscribe(
         (response) => {
           if (response["googleMapAPIKey"] != undefined) {
             new Promise((resolve) => {
               let script: HTMLScriptElement = document.createElement('script');
-              script.addEventListener('load', () => resolve());
+              script.addEventListener('load', r => resolve());
               script.src = `http://maps.googleapis.com/maps/api/js?key=${response["googleMapAPIKey"][0]}`;
               document.head.appendChild(script);
             });
@@ -105,7 +106,7 @@ export class DriverListComponent implements OnInit {
         }
       );
   }
-
+  
   /**
    * This function shows drivers on the map
    *
