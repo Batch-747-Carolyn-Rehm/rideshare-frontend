@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 
 
 @Injectable({
-  	providedIn: 'root'
+	providedIn: 'root'
 })
 
 export class UserService {
@@ -22,7 +22,7 @@ export class UserService {
 
 	// http headers
 	private headers = new HttpHeaders({'Content-Type': 'application/json'});
-	
+
 
 
 	/**
@@ -41,7 +41,7 @@ export class UserService {
 	 */
 
 	constructor(private http: HttpClient, private router: Router, private log: LogService, private authService: AuthService) { }
-  
+
 	/**
 	 * A GET method for all users
 	 */
@@ -49,13 +49,13 @@ export class UserService {
 	getAllUsers() {
 		return this.http.get<User[]>(this.url);
 	}
-	
+
 	/**
 	 * A GET method for one user by numeric id
 	 * @param idParam 
 	 */
 	getUserById(idParam: number){
-		
+
 		console.log(this.url)
 		return this.http.get<User>(this.url+idParam).toPromise();
 
@@ -67,7 +67,7 @@ export class UserService {
 	 * @param idParam2 
 	 */
 	getUserById2(idParam2: String): Observable<User>{
-		
+
 		//console.log(this.url)
 		return this.http.get<User>(this.url+idParam2);
 
@@ -182,16 +182,16 @@ export class UserService {
 		//console.log(user);
 		return this.http.put(this.url, user);
 	}
-	
+
 	/**
 	 * A GET method that retrieves a driver by Id
 	 * @param id 
 	 */
 
-	getDriverById(id: number): Observable <any>{
+	getDriverById(id: number): Observable<any>{
 		return this.http.get(this.url + id);
 	}
-	
+
 	/**
 	 * A PUT method that changes the isAcceptingRide variable
 	 * @param data 
@@ -199,44 +199,57 @@ export class UserService {
 
 	changeDriverIsAccepting(data) {
 		let id=data.userId;
-		return this.http.put(this.url+id, data).toPromise()
-		
-	  }
-	  
-	  getRidersForLocation(location: string): Observable <any>{
+		return this.http.put(this.url + id, data).toPromise()
+
+	}
+
+	getRidersForLocation(location: string): Observable <any>{
 		return this.http.get(this.url + '?is-driver=false&location='+ location)
-	  }
+	}
 
     /**
      * A GET method that shows all users
      */
-		showAllUser(): Observable<any>{
-		  return this.http.get(this.url);
-		}
+	showAllUser(): Observable<any>{
+		return this.http.get(this.url);
+	}
 
     /**
      * body to send update data
      */
-      private body: string;
+	private body: string;
 
-      private httpOptions = {
-        headers: new HttpHeaders({"Content-Type": "application/json"}),
-        observe: "response" as "body"
-      }
-  
+	private httpOptions = {
+		headers: new HttpHeaders({"Content-Type": "application/json"}),
+		observe: "response" as "body"
+	}
+
     /**
      * A function that bans users.
      */
-    banUser(user: User){
-      this.body = JSON.stringify(user);
-      this.http.put(`${this.url + user.userId}`,this.body,this.httpOptions).subscribe();
+	banUser(user: User){
+		this.body = JSON.stringify(user);
+		this.http.put(`${this.url + user.userId}`,this.body,this.httpOptions).subscribe();
 	}
-	
+
 	/**
 	 * This function gets riders based on location
 	 * @param location 
 	 */
 	getRidersForLocation1(location: string): Observable <any>{
 		return this.http.get(this.url + 'driver/'+ location)
+	}
+
+	getFilterSortedDrivers(filterTypes: string[], currentUserId: number, selectedBatch: number, sortBy: string, sortDirection: string): Observable<User[]> {
+		const queryUrl = this.url + 'filter';
+		const filters = { "filterTypes": filterTypes, "userId": currentUserId, "batchId": selectedBatch }
+		const options = {
+			headers: this.headers, params: {
+				"sortBy": sortBy,
+				"sortDirection": sortDirection
+			}
+		}
+
+		return this.http.post<any>(queryUrl, filters , options);
 	}
 }

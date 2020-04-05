@@ -16,7 +16,7 @@ export class User {
     /**
      * User: batch-> calls Batch constructor, Batch()
      */
-    batch: Batch = new Batch();
+    batch: Batch;
 
     /**
      * User: first name
@@ -97,7 +97,8 @@ export class User {
     /**
      * User: car-> calls Car constructor, Car()
      */
-    car: Car = new Car();
+    car: Car;
 
-    ride: {distance: number, duration: number};
+    distance: number
+    duration: number;
 }
