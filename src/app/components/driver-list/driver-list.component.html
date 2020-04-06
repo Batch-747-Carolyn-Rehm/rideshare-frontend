@@ -27,10 +27,10 @@
         <table class="table table-striped" id="driver-table" *ngIf="drivers.length > 0; else noDrivers">
           <thead class="thead-dark">
             <tr>
-              <th class="sort-col" [ngClass]="sortBy != 'name' && sortDirection != 'asc' ? 'sort-col-up' : 'sort-col-down'" scope="col" (click)="onSortChange('name')">Name</th>
-              <th class="sort-col" [ngClass]="sortBy != 'seats' && sortDirection != 'asc' ? 'sort-col-up' : 'sort-col-down'" scope="col" (click)="onSortChange('seats')">Seats</th>
-              <th class="sort-col" [ngClass]="sortBy != 'distance' && sortDirection != 'asc' ? 'sort-col-up' : 'sort-col-down'" scope="col" (click)="onSortChange('distance')">Distance</th>
-              <th class="sort-col" [ngClass]="sortBy != 'duration' && sortDirection != 'asc' ? 'sort-col-up' : 'sort-col-down'" scope="col" (click)="onSortChange('duration')">Time</th>
+              <th class="sort-col" [ngClass]="sortBy === 'name' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('name')">Name</th>
+              <th class="sort-col" [ngClass]="sortBy === 'seats' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('seats')">Seats</th>
+              <th class="sort-col" [ngClass]="sortBy === 'distance' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('distance')">Distance</th>
+              <th class="sort-col" [ngClass]="sortBy === 'duration' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('duration')">Time</th>
               <th scope="col">View Info</th>
             </tr>
           </thead>

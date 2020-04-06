@@ -37,14 +37,14 @@
     cursor: pointer;
 }
 
-.sort-col-up.sort-col:hover::after {
-    visibility: visible;
-    border-bottom: 0;
-    border-top: .3em solid;
-}
-
-.sort-col-down.sort-col:hover::after {
+.up-arrow.sort-col:hover::after {
     visibility: visible;
     border-bottom: .3em solid;
     border-top: 0;
+}
+
+.down-arrow.sort-col:hover::after {
+    visibility: visible;
+    border-bottom: 0;
+    border-top: .3em solid;
 }

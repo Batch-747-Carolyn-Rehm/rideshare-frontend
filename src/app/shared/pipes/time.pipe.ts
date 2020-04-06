@@ -15,15 +15,6 @@ export class TimePipe implements PipeTransform {
       let minutesString: string = "";
       let secondsString: string = "";
 
-      if (hours > 1) hoursString = `${hours} hours`;
-      else if (hours === 1) hoursString = `${hours} hour`
-
-      if (minutes > 1) minutesString = `${minutes} minutes`;
-      else if (minutes === 1) minutesString = `${minutes} minute`;
-
-      if (seconds > 1) secondsString = `${seconds} seconds`;
-      else if (seconds === 1) secondsString = `${seconds} second`;
-
       switch (format) {
         case 'hours':
           return value / 3600;
@@ -44,12 +35,24 @@ export class TimePipe implements PipeTransform {
           return `${hoursString}:${minutesString}:${secondsString}`
 
         case 'full':
+          if (hours > 1) hoursString = `${hours} hours`;
+          else if (hours === 1) hoursString = `${hours} hour`
+
+          if (minutes > 1) minutesString = `${minutes} minutes`;
+          else if (minutes === 1) minutesString = `${minutes} minute`;
+
+          if (seconds > 1) secondsString = `${seconds} seconds`;
+          else if (seconds === 1) secondsString = `${seconds} second`;
+
           return `${hoursString} ${minutesString} ${secondsString}`;
 
-        case 'long':
-          return (`${hoursString} ${minutesString}`.trim() + ` ${secondsString}`).trim();
-
         case 'short':
+          if (hours > 1) hoursString = `${hours} hrs`;
+          else if (hours === 1) hoursString = `${hours} hr`
+
+          if (minutes > 1) minutesString = `${minutes} mins`;
+          else if (minutes === 1) minutesString = `${minutes} min`;
+
           return `${hoursString} ${minutesString}`.trim();
 
         default:

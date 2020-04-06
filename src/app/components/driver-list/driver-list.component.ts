@@ -38,8 +38,8 @@ export class DriverListComponent implements OnInit {
   geocoder: any;
   sortDirection: string = "";
   sortBy: string = "";
-  
 
+  
   @ViewChild('map', null) mapElement: any;
   map: google.maps.Map;
 
@@ -62,7 +62,7 @@ export class DriverListComponent implements OnInit {
     this.batches = this.batchService.getAllBatches();
     this.getGoogleApi();
     this.currentUserId = JSON.parse(sessionStorage.getItem("userid"));
-    
+
 
     this.sleep(2500).then(() => {
       this.mapProperties = {
@@ -106,7 +106,7 @@ export class DriverListComponent implements OnInit {
         }
       );
   }
-  
+
   /**
    * This function shows drivers on the map
    *
@@ -116,38 +116,38 @@ export class DriverListComponent implements OnInit {
    */
   showDriversOnMap(origin, drivers){
     drivers.forEach(element => {
-     const destination = element.hCity + "," + element.hState
-     var directionsService = new google.maps.DirectionsService;
-     var directionsRenderer = new google.maps.DirectionsRenderer({
-       draggable: false,
-       map: this.map
-     });
-     this.displayRoute(origin, destination, directionsService, directionsRenderer);
-   });
- }
+      const destination = element.hCity + "," + element.hState
+      var directionsService = new google.maps.DirectionsService;
+      var directionsRenderer = new google.maps.DirectionsRenderer({
+        draggable: false,
+        map: this.map
+      });
+      this.displayRoute(origin, destination, directionsService, directionsRenderer);
+    });
+  }
 
- /**
- * This function shows the route from the driver to endpoint
- *
- * @param {*} origin
- * @param {*} destination
- * @param {*} service
- * @param {*} display
- * @memberof DriverListComponent
- */
-displayRoute(origin, destination, service, display) {
-  service.route({
-    origin: origin,
-    destination: destination,
-    travelMode: google.maps.TravelMode.DRIVING,
-  }, function(response, status) {
-    if (status === 'OK') {
-      display.setDirections(response);
-    } else {
-      console.log('Could not display directions due to: ' + status);
-    }
-  });
-}
+  /**
+  * This function shows the route from the driver to endpoint
+  *
+  * @param {*} origin
+  * @param {*} destination
+  * @param {*} service
+  * @param {*} display
+  * @memberof DriverListComponent
+  */
+  displayRoute(origin, destination, service, display) {
+    service.route({
+      origin: origin,
+      destination: destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }, function(response, status) {
+      if (status === 'OK') {
+        display.setDirections(response);
+      } else {
+        console.log('Could not display directions due to: ' + status);
+      }
+    });
+  }
 
   onSortChange(col: string): void {
     // If user clicks on same column, change sort direction. Else sort by new col
