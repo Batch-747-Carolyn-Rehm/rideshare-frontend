@@ -133,22 +133,20 @@ submitUser() {
   }
   this.userService.addUser(this.user).subscribe(
     res => {
-      if (Object.keys(res).length === 0) {
-        this.authService.authenticateUserCredential(this.user.userName).subscribe(response => {
-          if ((response["name"] != undefined) && (response["userid"] != undefined)) {
-						sessionStorage.setItem("name", response["name"]);
-						sessionStorage.setItem("userid", response["userid"]);
-						this.modalRef.hide();
-						this.sessionService.loggedIn();
-            this.router.navigate(['drivers']);
-					}
-        })
-      } else {
-        this.hAddressError = res.hAddress;
-        this.hStateError = res.hState;
-        this.hZipError = "Invalid";
-        this.hCityError = res.hCity;
-      }
+      this.authService.authenticateUserCredential(this.user.userName).subscribe(response => {
+        if ((response["name"] != undefined) && (response["userid"] != undefined)) {
+          sessionStorage.setItem("name", response["name"]);
+          sessionStorage.setItem("userid", response["userid"]);
+          this.modalRef.hide();
+          this.sessionService.loggedIn();
+          this.router.navigate(['drivers']);
+        }
+      })
+    }, err => {
+      this.hAddressError = err.error.hAddress;
+      this.hStateError = err.error.hState;
+      this.hZipError = "Invalid";
+      this.hCityError = err.error.hCity;
     }
   );
 

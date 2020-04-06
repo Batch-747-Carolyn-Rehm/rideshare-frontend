@@ -64,11 +64,9 @@ updatesContactInfo(){
     this.userService.updateUserInfo(this.currentUser).subscribe(response => {
       this.success = "";
       this.fail = "";
-      if (Object.keys(response).length === 0) {
-        this.success = "Updated Successfully!";
-      } else {
-        this.fail = "Invalid address!";
-      }
+      this.success = "Updated Successfully!";
+    }, err => {
+      this.fail = "Invalid address!";
     });
     
   }
