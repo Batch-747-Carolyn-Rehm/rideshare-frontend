@@ -36,7 +36,7 @@ import { UserRegisterComponent } from './components/user-register/user-register.
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { DriverListEntryComponent } from './components/driver-list-entry/driver-list-entry.component';
-
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { SessionService } from './services/session-service/session.service';
 
 
@@ -66,8 +66,10 @@ import { SessionService } from './services/session-service/session.service';
     UserRegisterComponent,
     HomePageComponent,
     BsNavbarComponent,
-    DriverListEntryComponent
-    
+    DriverListEntryComponent,
+    LandingPageComponent,
+
+
   ],
   imports: [
     BrowserModule,
