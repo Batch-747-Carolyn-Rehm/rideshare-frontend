@@ -79,14 +79,53 @@ describe('test contact information form', () => {
   /*
   * tests to asses user's ability to input data in the input fields
   */
+  it('able to input data in car make input field', () => {
+    element(by.id("make")).clear();
+    element(by.id("make")).sendKeys("makeTest");
+    expect(element(by.id("make")).getAttribute("value")).toBe("makeTest");
+  });
+
+  it('able to input data in car model input field', () => {
+    element(by.id("model")).clear();
+    element(by.id("model")).sendKeys("modelTest");
+    expect(element(by.id("model")).getAttribute("value")).toBe("modelTest");
+  });
+
+  it('able to input data in car color input field', () => {
+    element(by.id("color")).clear();
+    element(by.id("color")).sendKeys("colorTest");
+    expect(element(by.id("color")).getAttribute("value")).toBe("colorTest");
+  });
+
+  it('able to input data in car year input field', () => {
+    element(by.id("year")).clear();
+    element(by.id("year")).sendKeys("1900");
+    expect(element(by.id("year")).getAttribute("value")).toBe("1900");
+  });
+
+  it('able to change number of car seats', () => {
+    element(by.id("Nrseats")).click();
+    element(by.id("Nrseats")).element(by.cssContainingText('option', '5')).click();
+    expect(element(by.id("Nrseats")).getAttribute("value")).toBe("5");
+  });
 
   /*
   * test to make sure data is NOT persisted if the submit butotn is NOT used
   */
+ it('not submit data, rout away, rout back, changes not persisted', () => {
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedCarInfoBtn().click();
+  expect(element(by.id("make")).getAttribute("value")).toBe("Lotus");
+  expect(element(by.id("model")).getAttribute("value")).toBe("Esprit");
+  expect(element(by.id("color")).getAttribute("value")).toBe("Goldenrod");
+  expect(element(by.id("year")).getAttribute("value")).toBe("2002");
+  expect(element(by.id("Nrseats")).getAttribute("value")).toBe("1");
+});
 
   /*
   * tests to make sure data is persisted if the submit butotn is used
   */
+  
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
