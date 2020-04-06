@@ -1,5 +1,4 @@
 import { browser, logging, by, element } from 'protractor';
-import { AppPage } from '../src/app.po';
 
 describe('navigation tests', function() {
     let profilebuttonname = element(by.id('driverbuttontext'));
