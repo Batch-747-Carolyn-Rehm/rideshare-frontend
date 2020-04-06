@@ -105,7 +105,6 @@ describe('test membership form', () => {
     expect(element(by.id("select-role")).getAttribute("value")).toBe("false");
     expect(element(by.id("select-status")).getAttribute("value")).toBe("false");
     expect(element(by.id("select-seats-available")).getAttribute("value")).toBe("1: 1");
-
   });
 
   /*
