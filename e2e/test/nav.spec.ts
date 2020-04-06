@@ -1,4 +1,3 @@
-  
 import { browser, logging, by, element } from 'protractor';
 import { AppPage } from '../src/app.po';
 
