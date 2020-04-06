@@ -7,11 +7,11 @@ import { environment } from '../../../environments/environment';
 })
 export class FilterService {
 
-  url: string = environment.filterUri;
+  url: any = environment.filterUri;
 
   constructor(private http: HttpClient) { }
 
-  getFilteredDrivers(filters: Array<string>, userId: number, batchId: number) {
+  getFilteredDrivers(filters: Array<any>, userId: number, batchId: number) {
     return this.http.post(this.url, {
       "filterTypes": filters,
       "userId": userId,
