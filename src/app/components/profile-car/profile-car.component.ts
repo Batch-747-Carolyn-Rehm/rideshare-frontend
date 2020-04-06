@@ -83,11 +83,9 @@ createCarInfo(){
       this.userService.updateIsDriver(true, this.currentUser.userId);
       this.success = "";
       this.fail = "";
-      if (Object.keys(response).length === 0) {
-        this.success = "Updated Successfully!";
-      } else {
-        this.fail = "Invalid information!";
-      }
+      this.success = "Updated Successfully!";
+    }, err => {
+      this.fail = "Invalid information!";
     });
     
   }
@@ -106,11 +104,9 @@ updatesCarInfo(){
     this.carService.updateCarInfo(this.currentCar).subscribe(response => {
       this.success = "";
       this.fail = "";
-      if (Object.keys(response).length === 0) {
-        this.success = "Updated Successfully!";
-      } else {
-        this.fail = "Invalid information!";
-      }
+      this.success = "Updated Successfully!";
+    }, err => {
+      this.fail = "Invalid information!";
     });
   }
 /**

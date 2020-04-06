@@ -68,14 +68,13 @@ updatesContactInfo(){
     this.userService.updateUserInfo(this.profileObject).subscribe(response => {
       this.success = "";
       this.fail = "";
-      if (Object.keys(response).length === 0) {
-        const updatedName = this.firstName + " " + this.lastName;
-        sessionStorage.setItem("name", updatedName);
-        this.sessionService.loggedIn();
-        this.success = "Updated Successfully!";
-      } else {
-        this.fail = "Invalid fields!";
-      }
+      const updatedName = this.firstName + " " + this.lastName;
+      sessionStorage.setItem("name", updatedName);
+      this.sessionService.loggedIn();
+      this.success = "Updated Successfully!";
+    },
+    err => {
+      this.fail = "Invalid fields";
     });
     
   }

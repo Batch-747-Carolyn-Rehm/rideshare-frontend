@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 })
 export class FilterService {
 
-  url: string = environment.filterUri;
+  url: string = environment['filterUri'];
 
   constructor(private http: HttpClient) { }
 
