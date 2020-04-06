@@ -16,6 +16,7 @@ export class ProfileLocationComponent implements OnInit {
   hState: string;
   currentUser: User;
   success :string;
+  fail:string;
 
   constructor(private userService: UserService) { }
 
@@ -37,8 +38,13 @@ export class ProfileLocationComponent implements OnInit {
     this.currentUser.hAddress = this.address;
     this.currentUser.wAddress = this.address2;
     this.currentUser.hState = this.hState;
-    //console.log(this.currentUser);
-    this.userService.updateUserInfo(this.currentUser);
-    this.success = "Updated Successfully!";
+    this.userService.updateUserInfo(this.currentUser).subscribe(response => {
+      this.success = "";
+      this.fail = "";
+      this.success = "Updated Successfully!";
+    }, err => {
+      this.fail = "Invalid address!";
+    });
+    
   }
 }

@@ -19,9 +19,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.showCont = true;
-  /**
-   * A GET method that retrieves user's information
-   */
+   if(!window.sessionStorage.getItem("userid")){
+    this.router.navigate(["/"]);
+   }
 }
   showContact() {
     this.showCont = true;

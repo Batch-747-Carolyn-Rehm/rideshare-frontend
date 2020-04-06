@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class FilterService {
 
-  url: string = environment.filterUri;
+  url: string = environment['filterUri'];
 
   constructor(private http: HttpClient) { }
 

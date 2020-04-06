@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-
+import { SessionService } from 'src/app/services/session-service/session.service';
+/**
+ *
+ *
+ * @export
+ * @class ProfileContactComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-profile-contact',
   templateUrl: './profile-contact.component.html',
@@ -17,9 +24,20 @@ export class ProfileContactComponent implements OnInit {
   email: string;
   phone: string;
   success :string;
-  constructor(private router: Router, private userService: UserService) { }
-
-  ngOnInit() {
+  fail: string;
+  /**
+   *Creates an instance of ProfileContactComponent.
+   * @param {Router} router
+   * @param {UserService} userService
+   * @memberof ProfileContactComponent
+   */
+  constructor(private router: Router, private userService: UserService, private sessionService: SessionService) { }
+/**
+ * OnInit function
+ *
+ * @memberof ProfileContactComponent
+ */
+ngOnInit() {
     this.currentUser = this.userService.getUserById2(sessionStorage.getItem("userid")).subscribe((response)=>{
       this.profileObject = response;
 
@@ -38,8 +56,18 @@ export class ProfileContactComponent implements OnInit {
     this.profileObject.email = this.email;
     this.profileObject.phoneNumber = this.phone;
 
-    this.userService.updateUserInfo(this.profileObject);
-    this.success = "Updated Successfully!";
+    this.userService.updateUserInfo(this.profileObject).subscribe(response => {
+      this.success = "";
+      this.fail = "";
+      const updatedName = this.firstName + " " + this.lastName;
+      sessionStorage.setItem("name", updatedName);
+      this.sessionService.loggedIn();
+      this.success = "Updated Successfully!";
+    },
+    err => {
+      this.fail = "Invalid fields";
+    });
+    
   }
 
 
