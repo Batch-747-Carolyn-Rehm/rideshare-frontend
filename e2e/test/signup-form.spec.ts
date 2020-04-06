@@ -5,33 +5,33 @@ describe('Sign up form tests', function(){
     let signUpSubmitButton = element(by.id('submitButton'));
 
     let firstNameField = element(by.id('firstname'));
-    let firstNameError = element(by.id('firstnameError'));
+    //let firstNameError = element(by.id('firstnameError'));
     
     let lastNameField = element(by.id('lastname'));
-    let lastNameError = element(by.id('lastnameError'));
+    //let lastNameError = element(by.id('lastnameError'));
      
     let emailField = element(by.id('email'));
-    let emailError = element(by.id('emailError'));
+    //let emailError = element(by.id('emailError'));
     
     let phoneNumberField = element(by.id('phoneNumber'));
-    let phoneNumberError = element(by.id('phoneNumberError'));
+    //let phoneNumberError = element(by.id('phoneNumberError'));
      
     let usernameField = element(by.id('userName'));
-    let usernameError = element(by.id('usernameError'));
+    //let usernameError = element(by.id('usernameError'));
 
     let batchField = element(by.id('batch'));
     
     let hAddressField = element(by.id('hAddress'));
-    let hAddressError = element(by.id('hAddressError'));
+    //let hAddressError = element(by.id('hAddressError'));
     
     let hCityField = element(by.id('hCity'));
-    let hCityError = element(by.id('hCityError'));
+    //let hCityError = element(by.id('hCityError'));
      
     let hStateField = element(by.id('hState'));
-    let hStateError = element(by.id('hStateError'));
+    //let hStateError = element(by.id('hStateError'));
      
     let hZipField = element(by.id('hZip'));
-    let hZipError = element(by.id('hZipError'));
+    //let hZipError = element(by.id('hZipError'));
 
     let driverField = element(by.id('driverLabel'));
 
