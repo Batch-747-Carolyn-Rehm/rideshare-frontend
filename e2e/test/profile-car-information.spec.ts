@@ -1,7 +1,7 @@
 import { AppPage } from '../src/app.po';
 import { browser, logging, element, by } from 'protractor';
 
-describe('test contact information form', () => {
+describe('test car information form', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -125,6 +125,95 @@ describe('test contact information form', () => {
   /*
   * tests to make sure data is persisted if the submit butotn is used
   */
+  it('persisted - make changes saved', () => {
+    element(by.id("make")).clear();
+    element(by.id("make")).sendKeys("testMake");
+    page.getProfileContainerSubmitButton().click();
+    /*
+    * this sleeps are so that the app has time to process the form submit
+    */
+    browser.sleep(500);
+    page.getProfileGroupedContactInfoBtn().click();
+    page.getProfileGroupedCarInfoBtn().click();
+    expect(element(by.id("make")).getAttribute("value")).toBe("testMake");
+    element(by.id("make")).clear();
+    element(by.id("make")).sendKeys("Lotus");
+    page.getProfileContainerSubmitButton().click();
+    browser.sleep(500);
+    expect(element(by.id("make")).getAttribute("value")).toBe("Lotus");
+  });
+
+  it('persisted - model changes saved', () => {
+    element(by.id("model")).clear();
+    element(by.id("model")).sendKeys("testModel");
+    page.getProfileContainerSubmitButton().click();
+    /*
+    * this sleeps are so that the app has time to process the form submit
+    */
+    browser.sleep(500);
+    page.getProfileGroupedContactInfoBtn().click();
+    page.getProfileGroupedCarInfoBtn().click();
+    expect(element(by.id("model")).getAttribute("value")).toBe("testModel");
+    element(by.id("model")).clear();
+    element(by.id("model")).sendKeys("Esprit");
+    page.getProfileContainerSubmitButton().click();
+    browser.sleep(500);
+    expect(element(by.id("model")).getAttribute("value")).toBe("Esprit");
+  });
+
+  it('persisted - color changes saved', () => {
+    element(by.id("color")).clear();
+    element(by.id("color")).sendKeys("testColor");
+    page.getProfileContainerSubmitButton().click();
+    /*
+    * this sleeps are so that the app has time to process the form submit
+    */
+    browser.sleep(500);
+    page.getProfileGroupedContactInfoBtn().click();
+    page.getProfileGroupedCarInfoBtn().click();
+    expect(element(by.id("color")).getAttribute("value")).toBe("testColor");
+    element(by.id("color")).clear();
+    element(by.id("color")).sendKeys("Goldenrod");
+    page.getProfileContainerSubmitButton().click();
+    browser.sleep(500);
+    expect(element(by.id("color")).getAttribute("value")).toBe("Goldenrod");
+  });
+
+  it('persisted - year changes saved', () => {
+    element(by.id("year")).clear();
+    element(by.id("year")).sendKeys("1900");
+    page.getProfileContainerSubmitButton().click();
+    /*
+    * this sleeps are so that the app has time to process the form submit
+    */
+    browser.sleep(500);
+    page.getProfileGroupedContactInfoBtn().click();
+    page.getProfileGroupedCarInfoBtn().click();
+    expect(element(by.id("year")).getAttribute("value")).toBe("1900");
+    element(by.id("year")).clear();
+    element(by.id("year")).sendKeys("2002");
+    page.getProfileContainerSubmitButton().click();
+    browser.sleep(500);
+    expect(element(by.id("year")).getAttribute("value")).toBe("2002");
+  });
+  
+  it('persisted - number of car seats change saved', () => {
+    element(by.id("Nrseats")).click();
+    element(by.id("Nrseats")).element(by.cssContainingText('option', '3')).click();
+    page.getProfileContainerSubmitButton().click();
+    /*
+    * these sleeps are so that the app has time to process the form submit
+    */
+    browser.sleep(500);
+    page.getProfileGroupedContactInfoBtn().click();
+    page.getProfileGroupedCarInfoBtn().click();
+    expect(element(by.id("Nrseats")).getAttribute("value")).toBe("3");
+    element(by.id("Nrseats")).click();
+    element(by.id("Nrseats")).element(by.cssContainingText('option', '1')).click();
+    page.getProfileContainerSubmitButton().click();
+    browser.sleep(500);
+    expect(element(by.id("Nrseats")).getAttribute("value")).toBe("1");
+  });
   
 
   afterEach(async () => {
