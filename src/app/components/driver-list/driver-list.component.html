@@ -25,7 +25,7 @@
         </div>
       </div>
         <table class="table table-striped" id="driver-table" *ngIf="drivers.length > 0; else noDrivers">
-          <caption>Drivers that are accepting rides</caption>
+          <caption>List of drivers</caption>
           <thead class="thead-dark">
             <tr>
               <th class="sort-col" [ngClass]="sortBy === 'name' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('name')">Name</th>
