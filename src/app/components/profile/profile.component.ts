@@ -35,8 +35,9 @@ export class ProfileComponent implements OnInit {
    */
   ngOnInit() {
     this.showCont = true;
-   if(!window.sessionStorage.getItem("userid"))
-   this.router.navigate(["/"]);
+   if(!window.sessionStorage.getItem("userid")){
+    this.router.navigate(["/"]);
+   }
 }
 /**
  * Function that shows contact info

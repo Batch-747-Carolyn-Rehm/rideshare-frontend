@@ -1,9 +1,7 @@
 <tr>
     <td class="col">{{driver.firstName}}</td>
     <td class="col">{{driver.car.seatsAvailable}}</td>
-    <!-- This is going to be fix by Chris -->
-    <!-- <td class="col">{{driver.ride.distance}}</td>
-    <td class="col">{{driver.ride.duration}}</td> -->
+    
     <td class="col">
         <button type="button" class="btn btn-primary" data-toggle="modal" [attr.data-target]="'#contact-info-modal-'+driver.userId"> View</button>
         <div class="col-lg-5">
@@ -32,7 +30,3 @@
             <div #maps id="gmap" class="img-responsive"></div>
         </div>
     </td>
-<<<<<<< HEAD
-</tr>
-=======
->>>>>>> dev
