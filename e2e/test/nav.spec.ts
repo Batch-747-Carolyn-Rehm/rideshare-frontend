@@ -1,12 +1,31 @@
-import { browser, by, element } from 'protractor';
+import { browser, logging, by, element } from 'protractor';
 
 describe('navigation tests', function() {
-    let profilebutton = element(by.id('driverbuttontext'));
-
-    element(by.id('navbarDropdown')).click();
-    browser.pause();
-
+    let profilebuttonname = element(by.id('driverbuttontext'));
+    let driverbuttonclicker = element(by.id('navbarDropdown'));
+    let profilebuttonclicker = element(by.id('nav-profile-a'));
+    
     it('has the users name at top right', function() {
-        expect(profilebutton.getText()).toEqual('Fabien Braunroth');
+        expect(profilebuttonname.getText()).toEqual('Wain Vian');
     });
+
+    it('user can click on profile button', function() {
+        driverbuttonclicker.click();
+        profilebuttonclicker.click();
+        expect(element(by.id('profile-container-title')).getText()).toBe('Contact Information:');
+    });
+
+    it('user can click on profile button', function() {
+        driverbuttonclicker.click();
+        profilebuttonclicker.click();
+        expect(element(by.id('profile-container-title')).getText()).toBe('Contact Information:');
+    });
+
+    afterEach(async () => {
+        // Assert that there are no errors emitted from the browser
+        const logs = await browser.manage().logs().get(logging.Type.BROWSER);
+        expect(logs).not.toContain(jasmine.objectContaining({
+          level: logging.Level.SEVERE,
+        } as logging.Entry));
+      });
 });

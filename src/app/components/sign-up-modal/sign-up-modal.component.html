@@ -30,7 +30,7 @@
         <p id="usernameError" *ngIf="userNameError != ''" class="error">{{userNameError}}</p>    
     
         <label id="state">Batch</label>
-        <select class="form-control" required [(ngModel)]="user.batch" name="batch">
+        <select id="batch" class="form-control" required [(ngModel)]="user.batch" name="batch">
               <option value="none"></option>
               <option *ngFor="let batch of batches" [ngValue]="batch">{{batch.batchNumber}} {{batch.batchLocation}}</option>
         </select>
@@ -57,17 +57,17 @@
     
         <div class="radiobody">
           <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-primary">
+              <label class="btn btn-primary" id="driverLabel">
                 <input type="checkbox" id="driver" [(ngModel)]="isDriver" name="isDriver"/> Driver
               </label>
               <br>
-              <label class="btn btn-primary">
+              <label class="btn btn-primary" id="riderLabel">
                 <input type="checkbox" id="rider" [(ngModel)]="isRider" name="isRider"/> Rider
               </label>
           </div>
         </div>
         <div class="btn-container">
-          <button type="submit" class="btn btn-primary register" [disabled]="!myForm.form.valid">Submit</button>
+          <button id="submitButton" type="submit" class="btn btn-primary register" [disabled]="!myForm.form.valid">Submit</button>
         </div>
       </div>
     </form>
