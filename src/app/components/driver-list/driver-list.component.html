@@ -37,8 +37,8 @@
       <ng-template #showDrivers>
         <div *ngIf="drivers.length > 0; then showTable else noDrivers"></div>
         <ng-template #showTable>
-          <h4>List of drivers</h4>
-          <table class="table table-striped" id="driver-table">
+          <h4 id="driverdesc">List of drivers</h4>
+          <table class="table table-striped" id="driver-table" aria-describedby="driverdesc">
             <thead class="thead-dark">
               <tr>
                 <th class="sort-col" [ngClass]="sortBy === 'name' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('name')">Name</th>
