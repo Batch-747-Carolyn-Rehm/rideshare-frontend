@@ -12,15 +12,16 @@ exports.config = {
     specs: [
         // './src/**/*.e2e-spec.ts'
         //'./test/landingpage.spec.js',
-        './test/landing-page-login.spec.ts',
-        './test/signup-form.spec.ts',
+    //    './test/landing-page-login.spec.ts',
+    //    './test/signup-form.spec.ts',
         //'./test/register.spec.js',
         //'./test/usernav.spec.js',
-        './test/profile-landing-page.spec.ts',
-        './test/nav.spec.ts',
-        './test/profile-contact-information.spec.ts',
-        './test/profile-membership.spec.ts',
-        './test/profile-car-information.spec.ts'
+    //    './test/profile-landing-page.spec.ts',
+    //    './test/nav.spec.ts',
+    //    './test/profile-contact-information.spec.ts',
+    //    './test/profile-membership.spec.ts',
+    //    './test/profile-car-information.spec.ts',
+        './test/profile-location.spec.ts'
     ],
     capabilities: {
         browserName: 'chrome'
