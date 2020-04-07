@@ -240,13 +240,15 @@ export class UserService {
 		return this.http.get(this.url + 'driver/'+ location)
 	}
 
-	getFilterSortedDrivers(filterTypes: string[], currentUserId: number, selectedBatch: number, sortBy: string, sortDirection: string): Observable<User[]> {
+	getFilterSortedDrivers(filterTypes: string[], currentUserId: number, selectedBatch: number, sortBy: string, sortDirection: string, pageNo: number, pageSize: number): Observable<User[]> {
 		const queryUrl = this.url + 'filter';
 		const filters = { "filterTypes": filterTypes, "userId": currentUserId, "batchId": selectedBatch }
 		const options = {
 			headers: this.headers, params: {
 				"sortBy": sortBy,
-				"sortDirection": sortDirection
+				"sortDirection": sortDirection,
+				"pageNo": pageNo.toString(),
+				"pageSize": pageSize.toString()
 			}
 		}
 

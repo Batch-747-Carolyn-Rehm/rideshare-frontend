@@ -6,6 +6,8 @@ import { BatchService } from '../../services/batch-service/batch.service';
 import { User } from 'src/app/models/user';
 import { Batch } from 'src/app/models/batch';
 import { Car } from 'src/app/models/car';
+import { GoogleMapsService } from 'src/app/services/google-maps-service/google-maps.service';
+import { tap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-driver-list',
@@ -28,18 +30,21 @@ export class DriverListComponent implements OnInit {
    * @memberof DriverListComponent
    */
   currentUserId: number;
-  location: string = 'Morgantown, WV';
+  currentUser: User = null;
+  location: string = "";
   mapProperties: {};
   availableCars: Array<Car> = [];
   drivers: Array<User> = [];
   batches: Array<Batch> = [];
-  selectedBatch: number = 1;
+  selectedBatch: number;
   selectedFilters: Array<any> = [];
   geocoder: any;
   sortDirection: string = "";
   sortBy: string = "";
+  pageNo: number = 1;
+  pageSize: number = 5;
+  routes = [];
 
-  
   @ViewChild('map', null) mapElement: any;
   map: google.maps.Map;
 
@@ -51,7 +56,7 @@ export class DriverListComponent implements OnInit {
    * @memberof DriverListComponent
    */
   constructor(private http: HttpClient, private userService: UserService,
-    private batchService: BatchService) { }
+    private batchService: BatchService, private googleMapsService: GoogleMapsService) { }
 
   /**
    * on init is calls on location of user
@@ -63,6 +68,18 @@ export class DriverListComponent implements OnInit {
     this.getGoogleApi();
     this.currentUserId = JSON.parse(sessionStorage.getItem("userid"));
 
+    // this.googleMapsService.initMap(this.mapElement, null).pipe(switchMap(res => {
+    //   this.map = res;
+    //   console.log(this.map)
+    //   return this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection)
+    // })).subscribe(data => {
+    //   this.drivers = data;
+    //   if (this.drivers.length > 0) {
+    //     // this.googleMapsService.getDirection()
+    //     console.log(this.map)
+    //     this.showDriversOnMap(this.location, this.drivers);
+    //   }
+    // })
 
     this.sleep(2500).then(() => {
       this.mapProperties = {
@@ -72,7 +89,14 @@ export class DriverListComponent implements OnInit {
       };
       this.geocoder = new google.maps.Geocoder;
       this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapProperties);
-      this.getFilterSortedDrivers();
+      this.userService.getUserById2(this.currentUserId.toString()).subscribe(res => {
+        console.log(res);
+        this.currentUser = res;
+        this.location = `${res.hAddress}, ${res.hCity}, ${res.hState}`;
+        this.selectedBatch = res.batch.batchNumber
+        return this.getFilterSortedDrivers();
+      })
+      // this.getFilterSortedDrivers();
     });
   }
   /**
@@ -114,7 +138,7 @@ export class DriverListComponent implements OnInit {
    * @param {*} drivers
    * @memberof DriverListComponent
    */
-  showDriversOnMap(origin, drivers){
+  showDriversOnMap(origin, drivers) {
     drivers.forEach(element => {
       const destination = element.hCity + "," + element.hState
       var directionsService = new google.maps.DirectionsService;
@@ -140,17 +164,24 @@ export class DriverListComponent implements OnInit {
       origin: origin,
       destination: destination,
       travelMode: google.maps.TravelMode.DRIVING,
-    }, function(response, status) {
+    }, function (response, status) {
       if (status === 'OK') {
         display.setDirections(response);
       } else {
         console.log('Could not display directions due to: ' + status);
       }
     });
+    this.routes.push(display);
+  }
+
+  onFilterClick() {
+    this.pageNo = 1;
+    this.getFilterSortedDrivers();
   }
 
   onSortChange(col: string): void {
     // If user clicks on same column, change sort direction. Else sort by new col
+    this.pageNo = 1;
     if (this.sortBy == col) {
       if (this.sortDirection == 'asc') this.sortDirection = 'desc'
       else this.sortDirection = 'asc'
@@ -161,12 +192,24 @@ export class DriverListComponent implements OnInit {
     this.getFilterSortedDrivers();
   }
 
+  onNext() {
+    this.pageNo += 1;
+    this.getFilterSortedDrivers();
+  }
+
+  onPrevious() {
+    this.pageNo -= 1;
+    this.getFilterSortedDrivers();
+  }
+
   getFilterSortedDrivers() {
-    this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection).subscribe(data => {
+    this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection, this.pageNo, this.pageSize).subscribe(data => {
       this.drivers = data;
       if (this.drivers.length > 0) {
+        if (this.routes.length > 0) this.routes.map(r => r.setMap(null))
         this.showDriversOnMap(this.location, this.drivers);
       }
     })
+
   }
 }
