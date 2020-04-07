@@ -25,8 +25,8 @@
             <label for="select-status" class="col-sm-4 col-form-label">Status:</label>
             <div class="col-sm-4">
                 <select class="form-control mySelect" name="status" id="select-status" [(ngModel)]="profileObject.active" required>
-                    <option value="true">Active</option>
-                    <option value="false">Disabled</option>
+                    <option [ngValue]="true">Active</option>
+                    <option [ngValue]="false">Disabled</option>
                 </select>
             </div>
         </div>
