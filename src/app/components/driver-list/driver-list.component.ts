@@ -34,11 +34,12 @@ export class DriverListComponent implements OnInit {
   drivers: Array<User> = [];
   batches: Array<Batch> = [];
   selectedBatch: number = 1;
-  selectedFilters: Array<any> = [];
+  selectedFilters: Array<string> = [];
   geocoder: any;
   sortDirection: string = "";
   sortBy: string = "";
-
+  loading:boolean = true;
+  showRecommendationLabel:boolean = true;
   
   @ViewChild('map', null) mapElement: any;
   map: google.maps.Map;
@@ -162,11 +163,20 @@ export class DriverListComponent implements OnInit {
   }
 
   getFilterSortedDrivers() {
+    this.loading = true;
+    console.log(this.selectedFilters)
     this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection).subscribe(data => {
       this.drivers = data;
+      this.loading = false;
       if (this.drivers.length > 0) {
         this.showDriversOnMap(this.location, this.drivers);
       }
+      this.showRecommendationLabel = this.selectedFilters.length === 0;
+    }, ()=>{
+      //404 status is returned if no drivers are found so error block is reached instead
+      this.drivers = [];
+      this.showRecommendationLabel = this.selectedFilters.length === 0;
+      this.loading = false;
     })
   }
 }
