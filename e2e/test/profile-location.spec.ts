@@ -26,195 +26,101 @@ describe('test location form', () => {
     expect(page.getProfileContainerTitle().getText()).toEqual("Locationo:");
   });
 
-//   /*
-//   * tests to confirm the form input fields actually loaded
-//   */
-//   it('confirm make input loaded in view', () => {
-//     expect(element(by.id("make")).isPresent()).toBe(true);
-//   });
+  /*
+  * tests to confirm the form input fields actually loaded
+  */
+  it('confirm address input loaded in view', () => {
+    expect(element(by.id("address")).isPresent()).toBe(true);
+  });
 
-//   it('confirm model input loaded in view', () => {
-//     expect(element(by.id("model")).isPresent()).toBe(true);
-//   });
+  it('confirm address 2 loaded in view', () => {
+    expect(element(by.id("address2")).isPresent()).toBe(true);
+  });
 
-//   it('confirm color input loaded in view', () => {
-//     expect(element(by.id("color")).isPresent()).toBe(true);
-//   });
+  it('confirm city input loaded in view', () => {
+    expect(element(by.id("city")).isPresent()).toBe(true);
+  });
 
-//   it('confirm year input loaded in view', () => {
-//     expect(element(by.id("year")).isPresent()).toBe(true);
-//   });
+  it('confirm state select loaded in view', () => {
+    expect(element(by.id("state")).isPresent()).toBe(true);
+  });
 
-//   it('confirm number of seats select loaded in view', () => {
-//     expect(element(by.id("Nrseats")).isPresent()).toBe(true);
-//   });
+  it('confirm zipcode input loaded in view', () => {
+    expect(element(by.id("zipcode")).isPresent()).toBe(true);
+  });
 
-//   it('confirm submit button loaded in view', () => {
-//     expect(page.getProfileContainerSubmitButton().isPresent()).toBe(true);
-//   });
+  it('confirm submit button loaded in view', () => {
+    expect(page.getProfileContainerSubmitButton().isPresent()).toBe(true);
+  });
 
-//   /*
-//   * tests to confirm data was pulled from db and ddisplayed
-//   */
-//   it('confirm correct car make is loaded from db', () => {
-//     expect(element(by.id("make")).getAttribute("value")).toBe("Lotus");
-//   });
+  /*
+  * tests to confirm that correct data was pulled from db and displayed
+  */
+  it('confirm correct address is loaded from db', () => {
+    expect(element(by.id("address")).getAttribute("value")).toBe("500 Yates St");
+  });
 
-//   it('confirm correct car model is loaded from db', () => {
-//     expect(element(by.id("model")).getAttribute("value")).toBe("Esprit");
-//   });
+  it('confirm correct address 2 is loaded from db', () => {
+    expect(element(by.id("address2")).getAttribute("value")).toBe("");
+  });
 
-//   it('confirm correct car color is loaded from db', () => {
-//     expect(element(by.id("color")).getAttribute("value")).toBe("Goldenrod");
-//   });
+  it('confirm correct city is loaded from db', () => {
+    expect(element(by.id("city")).getAttribute("value")).toBe("Arlington");
+  });
 
-//   it('confirm correct car year is loaded from db', () => {
-//     expect(element(by.id("year")).getAttribute("value")).toBe("2002");
-//   });
+  it('confirm correct state loaded from db', () => {
+    expect(element(by.id("state")).getAttribute("value")).toBe("TX");
+  });
 
-//   it('confirm correct number of car seats loaded from db', () => {
-//     expect(element(by.id("Nrseats")).getAttribute("value")).toBe("1");
-//   });
+  it('confirm correct zipcode is loaded from db', () => {
+    expect(element(by.id("zipcode")).getAttribute("value")).toBe("76010");
+  });
 
-//   /*
-//   * tests to asses user's ability to input data in the input fields
-//   */
-//   it('able to input data in car make input field', () => {
-//     element(by.id("make")).clear();
-//     element(by.id("make")).sendKeys("makeTest");
-//     expect(element(by.id("make")).getAttribute("value")).toBe("makeTest");
-//   });
+  /*
+  * tests to asses user's ability to input data in the input fields
+  */
+  it('able to input data in address input field', () => {
+    element(by.id("address")).clear();
+    element(by.id("address")).sendKeys("addressTest");
+    expect(element(by.id("address")).getAttribute("value")).toBe("addressTest");
+  });
 
-//   it('able to input data in car model input field', () => {
-//     element(by.id("model")).clear();
-//     element(by.id("model")).sendKeys("modelTest");
-//     expect(element(by.id("model")).getAttribute("value")).toBe("modelTest");
-//   });
+  it('able to input data in address2 input field', () => {
+    element(by.id("address2")).clear();
+    element(by.id("address2")).sendKeys("address2Test");
+    expect(element(by.id("address2")).getAttribute("value")).toBe("address2Test");
+  });
 
-//   it('able to input data in car color input field', () => {
-//     element(by.id("color")).clear();
-//     element(by.id("color")).sendKeys("colorTest");
-//     expect(element(by.id("color")).getAttribute("value")).toBe("colorTest");
-//   });
+  it('able to input data in city input field', () => {
+    element(by.id("city")).clear();
+    element(by.id("city")).sendKeys("cityTest");
+    expect(element(by.id("city")).getAttribute("value")).toBe("cityTest");
+  });
 
-//   it('able to input data in car year input field', () => {
-//     element(by.id("year")).clear();
-//     element(by.id("year")).sendKeys("1900");
-//     expect(element(by.id("year")).getAttribute("value")).toBe("1900");
-//   });
+  it('able to change state', () => {
+    element(by.id("state")).click();
+    element(by.id("state")).element(by.cssContainingText('option', 'Florida')).click();
+    expect(element(by.id("state")).getAttribute("value")).toBe("FL");
+  });
 
-//   it('able to change number of car seats', () => {
-//     element(by.id("Nrseats")).click();
-//     element(by.id("Nrseats")).element(by.cssContainingText('option', '5')).click();
-//     expect(element(by.id("Nrseats")).getAttribute("value")).toBe("5");
-//   });
+  it('able to input data in zipcode input field', () => {
+    element(by.id("zipcode")).clear();
+    element(by.id("zipcode")).sendKeys("12345");
+    expect(element(by.id("zipcode")).getAttribute("value")).toBe("12345");
+  });
 
-//   /*
-//   * test to make sure data is NOT persisted if the submit butotn is NOT used
-//   */
-//  it('not submit data, rout away, rout back, changes not persisted', () => {
-//   page.getProfileGroupedContactInfoBtn().click();
-//   page.getProfileGroupedCarInfoBtn().click();
-//   expect(element(by.id("make")).getAttribute("value")).toBe("Lotus");
-//   expect(element(by.id("model")).getAttribute("value")).toBe("Esprit");
-//   expect(element(by.id("color")).getAttribute("value")).toBe("Goldenrod");
-//   expect(element(by.id("year")).getAttribute("value")).toBe("2002");
-//   expect(element(by.id("Nrseats")).getAttribute("value")).toBe("1");
-// });
-
-//   /*
-//   * tests to make sure data is persisted if the submit butotn is used
-//   */
-//   it('persisted - make changes saved', () => {
-//     element(by.id("make")).clear();
-//     element(by.id("make")).sendKeys("testMake");
-//     page.getProfileContainerSubmitButton().click();
-//     /*
-//     * this sleeps are so that the app has time to process the form submit
-//     */
-//     browser.sleep(500);
-//     page.getProfileGroupedContactInfoBtn().click();
-//     page.getProfileGroupedCarInfoBtn().click();
-//     expect(element(by.id("make")).getAttribute("value")).toBe("testMake");
-//     element(by.id("make")).clear();
-//     element(by.id("make")).sendKeys("Lotus");
-//     page.getProfileContainerSubmitButton().click();
-//     browser.sleep(500);
-//     expect(element(by.id("make")).getAttribute("value")).toBe("Lotus");
-//   });
-
-//   it('persisted - model changes saved', () => {
-//     element(by.id("model")).clear();
-//     element(by.id("model")).sendKeys("testModel");
-//     page.getProfileContainerSubmitButton().click();
-//     /*
-//     * this sleeps are so that the app has time to process the form submit
-//     */
-//     browser.sleep(500);
-//     page.getProfileGroupedContactInfoBtn().click();
-//     page.getProfileGroupedCarInfoBtn().click();
-//     expect(element(by.id("model")).getAttribute("value")).toBe("testModel");
-//     element(by.id("model")).clear();
-//     element(by.id("model")).sendKeys("Esprit");
-//     page.getProfileContainerSubmitButton().click();
-//     browser.sleep(500);
-//     expect(element(by.id("model")).getAttribute("value")).toBe("Esprit");
-//   });
-
-//   it('persisted - color changes saved', () => {
-//     element(by.id("color")).clear();
-//     element(by.id("color")).sendKeys("testColor");
-//     page.getProfileContainerSubmitButton().click();
-//     /*
-//     * this sleeps are so that the app has time to process the form submit
-//     */
-//     browser.sleep(500);
-//     page.getProfileGroupedContactInfoBtn().click();
-//     page.getProfileGroupedCarInfoBtn().click();
-//     expect(element(by.id("color")).getAttribute("value")).toBe("testColor");
-//     element(by.id("color")).clear();
-//     element(by.id("color")).sendKeys("Goldenrod");
-//     page.getProfileContainerSubmitButton().click();
-//     browser.sleep(500);
-//     expect(element(by.id("color")).getAttribute("value")).toBe("Goldenrod");
-//   });
-
-//   it('persisted - year changes saved', () => {
-//     element(by.id("year")).clear();
-//     element(by.id("year")).sendKeys("1900");
-//     page.getProfileContainerSubmitButton().click();
-//     /*
-//     * this sleeps are so that the app has time to process the form submit
-//     */
-//     browser.sleep(500);
-//     page.getProfileGroupedContactInfoBtn().click();
-//     page.getProfileGroupedCarInfoBtn().click();
-//     expect(element(by.id("year")).getAttribute("value")).toBe("1900");
-//     element(by.id("year")).clear();
-//     element(by.id("year")).sendKeys("2002");
-//     page.getProfileContainerSubmitButton().click();
-//     browser.sleep(500);
-//     expect(element(by.id("year")).getAttribute("value")).toBe("2002");
-//   });
-  
-//   it('persisted - number of car seats change saved', () => {
-//     element(by.id("Nrseats")).click();
-//     element(by.id("Nrseats")).element(by.cssContainingText('option', '3')).click();
-//     page.getProfileContainerSubmitButton().click();
-//     /*
-//     * these sleeps are so that the app has time to process the form submit
-//     */
-//     browser.sleep(500);
-//     page.getProfileGroupedContactInfoBtn().click();
-//     page.getProfileGroupedCarInfoBtn().click();
-//     expect(element(by.id("Nrseats")).getAttribute("value")).toBe("3");
-//     element(by.id("Nrseats")).click();
-//     element(by.id("Nrseats")).element(by.cssContainingText('option', '1')).click();
-//     page.getProfileContainerSubmitButton().click();
-//     browser.sleep(500);
-//     expect(element(by.id("Nrseats")).getAttribute("value")).toBe("1");
-//   });
-  
+  /*
+  * test to make sure data is NOT persisted if the submit butotn is NOT used
+  */
+ it('not submit data, rout away, rout back, changes not persisted', () => {
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  expect(element(by.id("address")).getAttribute("value")).toBe("500 Yates St");
+  expect(element(by.id("address2")).getAttribute("value")).toBe("");
+  expect(element(by.id("city")).getAttribute("value")).toBe("Arlington");
+  expect(element(by.id("state")).getAttribute("value")).toBe("TX");
+  expect(element(by.id("zipcode")).getAttribute("value")).toBe("76010");
+});
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
