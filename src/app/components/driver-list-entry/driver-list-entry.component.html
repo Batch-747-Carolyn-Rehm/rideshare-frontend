@@ -1,32 +1,32 @@
-<tr>
-    <td class="col">{{driver.firstName}}</td>
-    <td class="col">{{driver.car.seatsAvailable}}</td>
-    
-    <td class="col">
-        <button type="button" class="btn btn-primary" data-toggle="modal" [attr.data-target]="'#contact-info-modal-'+driver.userId"> View</button>
-        <div class="col-lg-5">
-            <div class="modal" id="contact-info-modal-{{driver.userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenteredLabel">Contact Info:</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <h1>{{driver.firstName}}</h1>
-                            <h3>Email: {{driver.email}}</h3>
-                            <h3>Phone: {{driver.phoneNumber}}</h3>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+<td class="col">{{driver.firstName}} {{driver.lastName}}</td>
+<td class="col">{{driver.car.seatsAvailable}}</td>
+<td class="col">{{driver.distance}} meters</td>
+<!-- Custom time pipe -->
+<td class="col">{{driver.duration | time:'short'}}</td>
+<td class="col">
+    <button type="button" class="btn btn-primary" data-toggle="modal"
+        [attr.data-target]="'#contact-info-modal-'+driver.userId"> View</button>
+    <div class="col-lg-6">
+        <div class="modal" id="contact-info-modal-{{driver.userId}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenteredLabel">Contact Info:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h1>{{driver.firstName}} {{driver.lastName}}</h1>
+                        <h3>Email: {{driver.email}}</h3>
+                        <h3>Phone: {{driver.phoneNumber}}</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div #maps id="gmap" class="img-responsive"></div>
-        </div>
-    </td>
+    </div>
+</td>

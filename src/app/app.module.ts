@@ -38,6 +38,7 @@ import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { DriverListEntryComponent } from './components/driver-list-entry/driver-list-entry.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { SessionService } from './services/session-service/session.service';
+import { TimePipe } from './shared/pipes/time.pipe';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { SessionService } from './services/session-service/session.service';
     HomePageComponent,
     BsNavbarComponent,
     DriverListEntryComponent,
+    TimePipe,
     LandingPageComponent,
 
 
@@ -75,9 +77,7 @@ import { SessionService } from './services/session-service/session.service';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    BrowserModule,
     AppRoutingModule,
-    FormsModule,
     ModalModule.forRoot(),
     NgbModule
   ],

@@ -17,3 +17,34 @@
 .modal{
     display: none;
 }
+
+.content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.sort-col::after {
+    display: inline-block;
+    visibility: hidden;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-right: .3em solid transparent;
+    border-left: .3em solid transparent;
+}
+
+.sort-col:hover {
+    cursor: pointer;
+}
+
+.up-arrow.sort-col:hover::after {
+    visibility: visible;
+    border-bottom: .3em solid;
+    border-top: 0;
+}
+
+.down-arrow.sort-col:hover::after {
+    visibility: visible;
+    border-bottom: 0;
+    border-top: .3em solid;
+}
