@@ -7,7 +7,7 @@ import { User } from 'src/app/models/user';
 import { Batch } from 'src/app/models/batch';
 import { Car } from 'src/app/models/car';
 import { GoogleMapsService } from 'src/app/services/google-maps-service/google-maps.service';
-import { tap, switchMap, concat } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
