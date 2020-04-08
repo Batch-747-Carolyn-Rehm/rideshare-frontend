@@ -1,6 +1,6 @@
 <td class="col">{{driver.firstName}} {{driver.lastName}}</td>
 <td class="col">{{driver.car.seatsAvailable}} / {{driver.car.seats}}</td>
-<td class="col">{{driver.distance}} mi.</td>
+<td class="col">{{driver.distance | metersToMiles}} mi.</td>
 <!-- Custom time pipe -->
 <td class="col">{{driver.duration | time:'short'}}</td>
 <td class="col">
