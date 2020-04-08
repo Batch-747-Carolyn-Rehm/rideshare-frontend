@@ -1,5 +1,5 @@
 import { AppPage } from '../src/app.po';
-import { browser, logging, element, by } from 'protractor';
+import { browser, logging, element, by, protractor } from 'protractor';
 
 describe('test location form', () => {
   let page: AppPage;
@@ -12,6 +12,7 @@ describe('test location form', () => {
   * tests to navigate the the profile page so that the tests can be conducted in the location form
   */
   it('login as user and navigate to profile landing page, click location, location container loaded', () => {
+    browser.waitForAngularEnabled(false);
     page.navigateToProfile();
     expect(element(by.id("profile-container")).isPresent()).toBe(true);
     page.getProfileGroupedLocationBtn().click();
@@ -112,6 +113,66 @@ describe('test location form', () => {
   expect(element(by.id("city")).getAttribute("value")).toBe(page.getTestUser().hCity);
   expect(element(by.id("state")).getAttribute("value")).toBe(page.getTestUser().hState);
   expect(element(by.id("zipcode")).getAttribute("value")).toBe(`${page.getTestUser().hZip}`);
+});
+
+ /*
+  * tests to make sure data is persisted if the submit butotn is used
+  */
+ it('persisted - adress changes saved', () => {
+  element(by.id("address")).clear();
+  element(by.id("address")).sendKeys("501 Yates St");
+  page.getProfileContainerSubmitButton().click();
+  /*
+  * this sleeps are so that the app has time to process the form submit
+  */
+  browser.sleep(500);
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  expect(element(by.id("address")).getAttribute("value")).toBe("501 Yates St");
+  element(by.id("address")).clear();
+  element(by.id("address")).sendKeys(page.getTestUser().hAddress);
+  page.getProfileContainerSubmitButton().click();
+  browser.sleep(500);
+  expect(element(by.id("address")).getAttribute("value")).toBe(page.getTestUser().hAddress);
+});
+
+ it('persisted - adress2 changes saved', () => {
+  element(by.id("address2")).clear();
+  element(by.id("address2")).sendKeys("501 Yates St");
+  page.getProfileContainerSubmitButton().click();
+  /*
+  * this sleeps are so that the app has time to process the form submit
+  */
+  browser.sleep(500);
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  expect(element(by.id("address2")).getAttribute("value")).toBe("501 Yates St");
+  element(by.id("address2")).sendKeys(protractor.Key.chord(protractor.Key.CONTROL, 'a'));
+  element(by.id("address2")).sendKeys(protractor.Key.DELETE);
+  page.getProfileContainerSubmitButton().click();
+  browser.sleep(5000);
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  browser.sleep(5000);
+  expect(element(by.id("address2")).getAttribute("value")).toBe('');
+});
+
+it('persisted - city changes saved', () => {
+  element(by.id("city")).clear();
+  element(by.id("city")).sendKeys("Dallas");
+  page.getProfileContainerSubmitButton().click();
+  /*
+  * this sleeps are so that the app has time to process the form submit
+  */
+  browser.sleep(500);
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  expect(element(by.id("city")).getAttribute("value")).toBe("Dallas");
+  element(by.id("city")).clear();
+  element(by.id("city")).sendKeys(page.getTestUser().hCity);
+  page.getProfileContainerSubmitButton().click();
+  browser.sleep(500);
+  expect(element(by.id("city")).getAttribute("value")).toBe(page.getTestUser().hCity);
 });
 
   afterEach(async () => {
