@@ -92,21 +92,16 @@ export class GoogleMapsService {
   }
 
   initMap(mapElement, mapProperties) {
-    // if (!mapProperties) {
-    //   mapProperties = {
-    //     center: new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng"))),
-    //     zoom: 15,
-    //     mapTypeId: google.maps.MapTypeId.ROADMAP
-    //   };
-    // }
-
     return this.isScriptLoaded().pipe(
       switchMap(() => {
-        mapProperties = {
-          center: new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng"))),
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+        if(sessionStorage.getItem("lat") && sessionStorage.getItem("lng")) {
+          const latLng = new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng")))
+          mapProperties = {
+            ...mapProperties,
+            center: latLng,
+          };
+        }
+        
         return of(new google.maps.Map(mapElement.nativeElement, mapProperties));
       })
     );

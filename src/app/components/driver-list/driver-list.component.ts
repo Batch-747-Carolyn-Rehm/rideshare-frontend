@@ -7,7 +7,8 @@ import { User } from 'src/app/models/user';
 import { Batch } from 'src/app/models/batch';
 import { Car } from 'src/app/models/car';
 import { GoogleMapsService } from 'src/app/services/google-maps-service/google-maps.service';
-import { tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, concat } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-driver-list',
@@ -37,16 +38,17 @@ export class DriverListComponent implements OnInit {
   drivers: Array<User> = [];
   batches: Array<Batch> = [];
   selectedBatch: number;
-  selectedFilters: Array<any> = [];
+  selectedFilters: Array<string> = [];
   geocoder: any;
   sortDirection: string = "";
   sortBy: string = "";
+  loading:boolean = true;
+  showRecommendationLabel:boolean = true;
   pageNo: number = 1;
   pageSize: number = 5;
   routes = [];
-
   @ViewChild('map', null) mapElement: any;
-  map: google.maps.Map;
+  map: google.maps.Map = null;
 
   /**
    * This is a constructor
@@ -65,39 +67,35 @@ export class DriverListComponent implements OnInit {
    */
   ngOnInit() {
     this.batches = this.batchService.getAllBatches();
-    this.getGoogleApi();
+    // this.getGoogleApi();
+
     this.currentUserId = JSON.parse(sessionStorage.getItem("userid"));
+    this.userService.getUserById2(this.currentUserId.toString()).pipe(tap(user => {
+      this.currentUser = user;
+      this.location = `${user.hAddress}, ${user.hCity}, ${user.hState}`;
+      this.selectedBatch = user.batch.batchNumber
+    })).subscribe()
 
-    // this.googleMapsService.initMap(this.mapElement, null).pipe(switchMap(res => {
-    //   this.map = res;
-    //   console.log(this.map)
-    //   return this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection)
-    // })).subscribe(data => {
-    //   this.drivers = data;
-    //   if (this.drivers.length > 0) {
-    //     // this.googleMapsService.getDirection()
-    //     console.log(this.map)
-    //     this.showDriversOnMap(this.location, this.drivers);
-    //   }
-    // })
-
-    this.sleep(2500).then(() => {
       this.mapProperties = {
-        center: new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng"))),
         zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: "roadmap"
       };
-      this.geocoder = new google.maps.Geocoder;
-      this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapProperties);
-      this.userService.getUserById2(this.currentUserId.toString()).subscribe(res => {
-        console.log(res);
-        this.currentUser = res;
-        this.location = `${res.hAddress}, ${res.hCity}, ${res.hState}`;
-        this.selectedBatch = res.batch.batchNumber
-        return this.getFilterSortedDrivers();
-      })
-      // this.getFilterSortedDrivers();
-    });
+
+    this.googleMapsService.initMap(this.mapElement, this.mapProperties).subscribe(res => {
+      this.map = res;
+      this.getFilterSortedDrivers();
+    })
+
+    // this.sleep(2500).then(() => {
+    //   this.mapProperties = {
+    //     center: new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng"))),
+    //     zoom: 15,
+    //     mapTypeId: google.maps.MapTypeId.ROADMAP
+    //   };
+    //   this.geocoder = new google.maps.Geocoder;
+    //   this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapProperties);
+    //   this.getFilterSortedDrivers();
+    // });
   }
   /**
    *
@@ -140,7 +138,7 @@ export class DriverListComponent implements OnInit {
    */
   showDriversOnMap(origin, drivers) {
     drivers.forEach(element => {
-      const destination = element.hCity + "," + element.hState
+      const destination = element.hAddress + "," + element.hCity + "," + element.hState
       var directionsService = new google.maps.DirectionsService;
       var directionsRenderer = new google.maps.DirectionsRenderer({
         draggable: false,
@@ -203,12 +201,27 @@ export class DriverListComponent implements OnInit {
   }
 
   getFilterSortedDrivers() {
+    this.loading = true;
     this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection, this.pageNo, this.pageSize).subscribe(data => {
       this.drivers = data;
+      this.loading = false;
       if (this.drivers.length > 0) {
-        if (this.routes.length > 0) this.routes.map(r => r.setMap(null))
+        if (this.routes.length > 0) {
+          this.routes.map(r => r.setMap(null))
+          this.routes = [];
+        }
         this.showDriversOnMap(this.location, this.drivers);
       }
+      this.showRecommendationLabel = this.selectedFilters.length === 0;
+    }, ()=>{
+      //404 status is returned if no drivers are found so error block is reached instead
+      if (this.routes.length > 0) {
+        this.routes.map(r => r.setMap(null))
+        this.routes = [];
+      }
+      this.drivers = [];
+      this.showRecommendationLabel = this.selectedFilters.length === 0;
+      this.loading = false;
     })
 
   }
