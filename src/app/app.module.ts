@@ -39,6 +39,8 @@ import { DriverListEntryComponent } from './components/driver-list-entry/driver-
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { SessionService } from './services/session-service/session.service';
 import { TimePipe } from './shared/pipes/time.pipe';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MetersToMilesPipe } from './shared/pipes/meters-to-miles.pipe';
 
 
 @NgModule({
@@ -70,7 +72,8 @@ import { TimePipe } from './shared/pipes/time.pipe';
     DriverListEntryComponent,
     TimePipe,
     LandingPageComponent,
-
+    SpinnerComponent,
+    MetersToMilesPipe
 
   ],
   imports: [

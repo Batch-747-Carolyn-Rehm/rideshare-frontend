@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { User } from 'src/app/models/user';
 import { Batch } from 'src/app/models/batch';
-import { Car } from 'src/app/models/car';
+import { GoogleMapsService } from 'src/app/services/google-maps-service/google-maps.service';
+import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-driver-list',
@@ -28,20 +28,23 @@ export class DriverListComponent implements OnInit {
    * @memberof DriverListComponent
    */
   currentUserId: number;
-  location: string = 'Morgantown, WV';
+  currentUser: User = null;
+  location: string = "";
   mapProperties: {};
-  availableCars: Array<Car> = [];
   drivers: Array<User> = [];
   batches: Array<Batch> = [];
-  selectedBatch: number = 1;
-  selectedFilters: Array<any> = [];
-  geocoder: any;
+  selectedBatch: number;
+  selectedFilters: Array<string> = [];
   sortDirection: string = "";
   sortBy: string = "";
-
-  
+  loading: boolean = true;
+  showRecommendationLabel: boolean = true;
+  pageNo: number = 1;
+  pageSize: number = 5;
+  routes: Array<google.maps.DirectionsRenderer> = [];
   @ViewChild('map', null) mapElement: any;
-  map: google.maps.Map;
+  map: google.maps.Map = null;
+  isMapLoading$: Observable<boolean>;
 
   /**
    * This is a constructor
@@ -50,8 +53,8 @@ export class DriverListComponent implements OnInit {
    * @param {UserService} userService
    * @memberof DriverListComponent
    */
-  constructor(private http: HttpClient, private userService: UserService,
-    private batchService: BatchService) { }
+  constructor(private userService: UserService,
+    private batchService: BatchService, private googleMapsService: GoogleMapsService) { }
 
   /**
    * on init is calls on location of user
@@ -60,51 +63,24 @@ export class DriverListComponent implements OnInit {
    */
   ngOnInit() {
     this.batches = this.batchService.getAllBatches();
-    this.getGoogleApi();
+    this.isMapLoading$ = this.googleMapsService.isMapLoading$;
+    this.mapProperties = {
+      zoom: 15,
+      mapTypeId: "roadmap"
+    };
     this.currentUserId = JSON.parse(sessionStorage.getItem("userid"));
 
-
-    this.sleep(2500).then(() => {
-      this.mapProperties = {
-        center: new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng"))),
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      this.geocoder = new google.maps.Geocoder;
-      this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapProperties);
+    // Getting current user information by the session userID, but will need to check if user has been authenticated already
+    this.userService.getUserById2(this.currentUserId.toString()).pipe(switchMap(user => {
+      this.currentUser = user;
+      this.location = `${this.currentUser.hAddress}, ${this.currentUser.hCity}, ${this.currentUser.hState}`;
+      this.selectedBatch = this.currentUser.batch.batchNumber
+      return this.googleMapsService.initMap(this.mapElement, this.mapProperties)
+    })).subscribe(res => {
+      this.map = res;
       this.getFilterSortedDrivers();
-    });
-  }
-  /**
-   *
-   *
-   * @param {*} ms
-   * @returns
-   * @memberof DriverListComponent
-   */
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+    })
 
-  /**
-   * This function calls the Google api
-   *
-   * @memberof DriverListComponent
-   */
-  getGoogleApi() {
-    this.http.get(`${environment.loginUri}getGoogleApi`)
-      .subscribe(
-        (response) => {
-          if (response["googleMapAPIKey"] != undefined) {
-            new Promise((resolve) => {
-              let script: HTMLScriptElement = document.createElement('script');
-              script.addEventListener('load', r => resolve());
-              script.src = `http://maps.googleapis.com/maps/api/js?key=${response["googleMapAPIKey"][0]}`;
-              document.head.appendChild(script);
-            });
-          }
-        }
-      );
   }
 
   /**
@@ -114,43 +90,30 @@ export class DriverListComponent implements OnInit {
    * @param {*} drivers
    * @memberof DriverListComponent
    */
-  showDriversOnMap(origin, drivers){
-    drivers.forEach(element => {
-      const destination = element.hCity + "," + element.hState
-      var directionsService = new google.maps.DirectionsService;
-      var directionsRenderer = new google.maps.DirectionsRenderer({
-        draggable: false,
-        map: this.map
-      });
-      this.displayRoute(origin, destination, directionsService, directionsRenderer);
-    });
+  showDriversOnMap(origin, drivers) {
+    drivers.forEach(driver => {
+      const destination = driver.hAddress + "," + driver.hCity + "," + driver.hState
+      this.googleMapsService.getDirection(origin, destination).subscribe(res => {
+        const route = new google.maps.DirectionsRenderer();
+        const options: google.maps.DirectionsRendererOptions = {
+          draggable: false,
+          map: this.map,
+        }
+
+        route.setOptions(options);
+        route.setDirections(res);
+        this.routes.push(route);
+      })})
   }
 
-  /**
-  * This function shows the route from the driver to endpoint
-  *
-  * @param {*} origin
-  * @param {*} destination
-  * @param {*} service
-  * @param {*} display
-  * @memberof DriverListComponent
-  */
-  displayRoute(origin, destination, service, display) {
-    service.route({
-      origin: origin,
-      destination: destination,
-      travelMode: google.maps.TravelMode.DRIVING,
-    }, function(response, status) {
-      if (status === 'OK') {
-        display.setDirections(response);
-      } else {
-        console.log('Could not display directions due to: ' + status);
-      }
-    });
+  onFilterClick() {
+    this.pageNo = 1;
+    this.getFilterSortedDrivers();
   }
 
   onSortChange(col: string): void {
     // If user clicks on same column, change sort direction. Else sort by new col
+    this.pageNo = 1;
     if (this.sortBy == col) {
       if (this.sortDirection == 'asc') this.sortDirection = 'desc'
       else this.sortDirection = 'asc'
@@ -161,12 +124,51 @@ export class DriverListComponent implements OnInit {
     this.getFilterSortedDrivers();
   }
 
+  onNext() {
+    this.pageNo += 1;
+    this.getFilterSortedDrivers();
+  }
+
+  onPrevious() {
+    this.pageNo -= 1;
+    this.getFilterSortedDrivers();
+  }
+
+  // Clears the routes on the map, but still keep them in the array.
+  clearRoutes(): void {
+    if (this.routes.length > 0) {
+      this.routes.forEach(r => r.setMap(null))
+    }
+  }
+
+  // Deletes all routes in the array by removing references to them and clearing routes off the map.
+  deleteRoutes(): void {
+    this.clearRoutes();
+    this.routes = [];
+  }
+
+  
   getFilterSortedDrivers() {
-    this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection).subscribe(data => {
+    this.loading = true;
+
+    // Deleting routes for now, but may want to cache routes in case same data in future
+    this.deleteRoutes();
+
+    this.userService.getFilterSortedDrivers(this.selectedFilters, this.currentUserId, this.selectedBatch, this.sortBy, this.sortDirection, this.pageNo, this.pageSize).subscribe(data => {
+      this.loading = false;
       this.drivers = data;
+
       if (this.drivers.length > 0) {
         this.showDriversOnMap(this.location, this.drivers);
       }
+
+      this.showRecommendationLabel = this.selectedFilters.length === 0;
+    }, () => {
+      //404 status is returned if no drivers are found so error block is reached instead
+      this.drivers = [];
+      this.showRecommendationLabel = this.selectedFilters.length === 0;
+      this.loading = false;
     })
+
   }
 }

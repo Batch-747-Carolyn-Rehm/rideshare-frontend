@@ -5,50 +5,81 @@
       <h6>Filters</h6>
       <div class="container" id="filter-container">
         <div class="row">
-          <select class="col-lg-12" multiple id="filters" [(ngModel)]="selectedFilters">
-            <option value="batch">Batch</option>
-            <option value="zipcode">Zip Code</option>
-            <option value="city">City</option>
-          </select>
-        </div>
-        <div class="row">
-          <select class="col-lg-12" id="batches" [(ngModel)]="selectedBatch">
-            <option *ngFor="let batch of batches; let index = index" [ngValue]="batch?.batchNumber">
-              {{batch?.batchLocation}}
-            </option>
-          </select>
+          <div class="col-lg-12">
+            <div class="form-group">
+              <select  multiple class="form-control" id="filters" [(ngModel)]="selectedFilters">
+                <option value="batch">Batch</option>
+                <option value="zipcode">Zip Code</option>
+                <option value="city">City</option>
+              </select>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-12 text-center">
-            <button (click)="getFilterSortedDrivers()">Apply Filters</button>
+              <div class="form-group">
+              <select class="form-control" id="batches" [(ngModel)]="selectedBatch">
+                <option *ngFor="let batch of batches; let index = index" [ngValue]="batch?.batchNumber">
+                  {{batch?.batchLocation}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <button (click)="onFilterClick()" class="btn btn-primary">Apply Filters</button>
           </div>
         </div>
       </div>
-        <table class="table table-striped" id="driver-table" *ngIf="drivers.length > 0; else noDrivers">
-          <caption>List of drivers</caption>
-          <thead class="thead-dark">
-            <tr>
-              <th class="sort-col" [ngClass]="sortBy === 'name' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('name')">Name</th>
-              <th class="sort-col" [ngClass]="sortBy === 'seats' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('seats')">Seats</th>
-              <th class="sort-col" [ngClass]="sortBy === 'distance' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('distance')">Distance</th>
-              <th class="sort-col" [ngClass]="sortBy === 'duration' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('duration')">Time</th>
-              <th scope="col">View Info</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr app-driver-list-entry class="list-entry" *ngFor="let driver of drivers" [driver]=driver></tr>
-          </tbody>
-        </table>
-      <ng-template #noDrivers>
-        <div class="row">
-          <div class="text-center col-lg-12">
-            <h2>No Drivers in Your Area</h2>
+      <h4 *ngIf="showRecommendationLabel">Recommended Drivers:</h4>
+      <div *ngIf="loading; then showSpinner else showDrivers"></div>
+      <ng-template #showDrivers>
+        <div *ngIf="drivers.length > 0; then showTable else noDrivers"></div>
+        <ng-template #showTable>
+          <h4 id="driverdesc">List of drivers</h4>
+          <table class="table table-striped" id="driver-table" aria-describedby="driverdesc">
+            <thead class="thead-dark">
+              <tr>
+                <th class="sort-col" [ngClass]="sortBy === 'name' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('name')">Name</th>
+                <th class="sort-col" [ngClass]="sortBy === 'seats' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('seats')">Seats</th>
+                <th class="sort-col" [ngClass]="sortBy === 'distance' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('distance')">Distance</th>
+                <th class="sort-col" [ngClass]="sortBy === 'duration' && sortDirection === 'asc' ? 'up-arrow' : 'down-arrow'" scope="col" (click)="onSortChange('duration')">Time</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr app-driver-list-entry class="list-entry" *ngFor="let driver of drivers" [driver]=driver></tr>
+            </tbody>
+          </table>
+        </ng-template>
+        <ng-template #noDrivers>
+          <div class="row">
+            <div class="text-center col-lg-12">
+              <h2>No Drivers in Your Area</h2>
+            </div>
           </div>
-        </div>
+        </ng-template>
+        <nav aria-label="Driver list page navigation" *ngIf="(drivers.length === 5 && pageNo === 1) || pageNo > 1">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [ngClass]="pageNo === 1 ? 'disabled' : ''">
+                <button class="page-link" aria-disabled="pageNo === 1 ? true : false" (click)="onPrevious()"> <span aria-hidden="true">&laquo;</span> Previous</button>
+              </li>
+              <div class="spacer">
+              </div>
+              <li class="page-item" [ngClass]="{'disabled': drivers.length  < 5}">
+                <button class="page-link" aria-disabled="drivers.length < 5 ? true : false" (click)="onNext()">Next <span aria-hidden="true">&raquo;</span></button>
+              </li>
+            </ul>
+          </nav>
+      </ng-template>
+      <ng-template #showSpinner>
+        <app-spinner></app-spinner>
       </ng-template>
     </div>
     <div class="col-lg-6 col-xs-12">
       <h4>Directions:</h4>
+      <app-spinner *ngIf="isMapLoading$ | async"></app-spinner>
       <div #map id="gmap" class="img-responsive"></div>
     </div>
   </div>

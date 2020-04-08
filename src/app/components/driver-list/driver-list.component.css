@@ -48,3 +48,11 @@
     border-bottom: 0;
     border-top: .3em solid;
 }
+
+.sort-col {
+    white-space: nowrap;
+}
+
+.spacer {
+    flex: 0 1 1rem;
+}
