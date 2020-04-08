@@ -98,10 +98,6 @@ export class DriverListComponent implements OnInit {
         const options: google.maps.DirectionsRendererOptions = {
           draggable: false,
           map: this.map,
-          markerOptions: {
-            title: `${driver.firstName} ${driver.lastName}`,
-            // icon: ""
-          },
         }
 
         route.setOptions(options);
