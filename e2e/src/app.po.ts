@@ -104,4 +104,8 @@ export class AppPage {
     browser.waitForAngularEnabled(false);
     this.getNavProfileA().click();
   }
+
+  expectElementToBePresent(id: string): void {
+    expect(element(by.id(id)).isPresent()).toBe(true);
+  }
 }

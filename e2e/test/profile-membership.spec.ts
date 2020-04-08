@@ -30,19 +30,19 @@ describe('test membership form', () => {
   * tests to confirm the form input fields actually loaded
   */
   it('confirm batch label loaded in view', () => {
-    expect(element(by.id("batch-name")).isPresent()).toBe(true);
+    page.expectElementToBePresent("batch-name");
   });
 
   it('confirm role select loaded in view', () => {
-    expect(element(by.id("select-role")).isPresent()).toBe(true);
+    page.expectElementToBePresent("select-role");
   });
 
   it('confirm status select loaded in view', () => {
-    expect(element(by.id("select-status")).isPresent()).toBe(true);
+    page.expectElementToBePresent("select-status");
   });
 
   it('confirm seats available select loaded in view', () => {
-    expect(element(by.id("select-seats-available")).isPresent()).toBe(true);
+    page.expectElementToBePresent("select-seats-available");
   });
 
   it('confirm submit button loaded in view', () => {
