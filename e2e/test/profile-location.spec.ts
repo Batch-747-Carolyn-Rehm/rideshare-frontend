@@ -150,10 +150,9 @@ describe('test location form', () => {
   element(by.id("address2")).sendKeys(protractor.Key.chord(protractor.Key.CONTROL, 'a'));
   element(by.id("address2")).sendKeys(protractor.Key.DELETE);
   page.getProfileContainerSubmitButton().click();
-  browser.sleep(5000);
+  browser.sleep(500);
   page.getProfileGroupedContactInfoBtn().click();
   page.getProfileGroupedLocationBtn().click();
-  browser.sleep(5000);
   expect(element(by.id("address2")).getAttribute("value")).toBe('');
 });
 
@@ -173,6 +172,66 @@ it('persisted - city changes saved', () => {
   page.getProfileContainerSubmitButton().click();
   browser.sleep(500);
   expect(element(by.id("city")).getAttribute("value")).toBe(page.getTestUser().hCity);
+});
+
+/*
+* had to change multiple fields so that the address was valid
+*/
+it('persisted - state changes saved', () => {
+  element(by.id("address")).clear();
+  element(by.id("address")).sendKeys("11730 Plaza America Dr.");
+  element(by.id("city")).clear();
+  element(by.id("city")).sendKeys("Reston");
+  element(by.id("state")).click();
+  element(by.id("state")).element(by.cssContainingText('option', 'Virginia')).click();
+  element(by.id("zipcode")).clear();
+  element(by.id("zipcode")).sendKeys("20190");
+  page.getProfileContainerSubmitButton().click();
+  /*
+  * these sleeps are so that the app has time to process the form submit
+  */
+  browser.sleep(500);
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  expect(element(by.id("address")).getAttribute("value")).toBe("11730 Plaza America Dr.");
+  expect(element(by.id("city")).getAttribute("value")).toBe("Reston");
+  expect(element(by.id("state")).getAttribute("value")).toBe("VA");
+  expect(element(by.id("zipcode")).getAttribute("value")).toBe("20190");
+  element(by.id("address")).clear();
+  element(by.id("address")).sendKeys(page.getTestUser().hAddress);
+  element(by.id("city")).clear();
+  element(by.id("city")).sendKeys(page.getTestUser().hCity);
+  element(by.id("state")).click();
+  /*
+  * this is hard coded, was not able to have it select by the option value, db stores acronym not name
+  */
+  element(by.id("state")).element(by.cssContainingText('option', 'Texas')).click();
+  element(by.id("zipcode")).clear();
+  element(by.id("zipcode")).sendKeys(page.getTestUser().hZip);
+  page.getProfileContainerSubmitButton().click();
+  browser.sleep(500);
+  expect(element(by.id("address")).getAttribute("value")).toBe(page.getTestUser().hAddress);
+  expect(element(by.id("city")).getAttribute("value")).toBe(page.getTestUser().hCity);
+  expect(element(by.id("state")).getAttribute("value")).toBe(page.getTestUser().hState);
+  expect(element(by.id("zipcode")).getAttribute("value")).toBe(`${page.getTestUser().hZip}`);
+});
+
+it('persisted - zip changes saved', () => {
+  element(by.id("zipcode")).clear();
+  element(by.id("zipcode")).sendKeys("76010-");
+  page.getProfileContainerSubmitButton().click();
+  /*
+  * this sleeps are so that the app has time to process the form submit
+  */
+  browser.sleep(500);
+  page.getProfileGroupedContactInfoBtn().click();
+  page.getProfileGroupedLocationBtn().click();
+  expect(element(by.id("zipcode")).getAttribute("value")).toBe("76010-");
+  element(by.id("zipcode")).clear();
+  element(by.id("zipcode")).sendKeys(page.getTestUser().hZip);
+  page.getProfileContainerSubmitButton().click();
+  browser.sleep(500);
+  expect(element(by.id("zipcode")).getAttribute("value")).toBe(`${page.getTestUser().hZip}`);
 });
 
   afterEach(async () => {
