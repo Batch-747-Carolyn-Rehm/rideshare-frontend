@@ -30,19 +30,19 @@ describe('test membership form', () => {
   * tests to confirm the form input fields actually loaded
   */
   it('confirm batch label loaded in view', () => {
-    expect(element(by.id("batch-name")).isPresent()).toBe(true);
+    page.expectElementToBePresent("batch-name");
   });
 
   it('confirm role select loaded in view', () => {
-    expect(element(by.id("select-role")).isPresent()).toBe(true);
+    page.expectElementToBePresent("select-role");
   });
 
   it('confirm status select loaded in view', () => {
-    expect(element(by.id("select-status")).isPresent()).toBe(true);
+    page.expectElementToBePresent("select-status");
   });
 
   it('confirm seats available select loaded in view', () => {
-    expect(element(by.id("select-seats-available")).isPresent()).toBe(true);
+    page.expectElementToBePresent("select-seats-available");
   });
 
   it('confirm submit button loaded in view', () => {
@@ -61,7 +61,7 @@ describe('test membership form', () => {
   });
 
   it('confirm correct status loaded', () => {
-    expect(element(by.id("select-status")).getAttribute("value")).toBe("false");
+    expect(element(by.id("select-status")).getAttribute("value")).toBe("1: false");
   });
 
   it('confirm correct number of available seats loaded', () => {
@@ -80,7 +80,7 @@ describe('test membership form', () => {
   it('able to change status', () => {
     element(by.id("select-status")).click();
     element(by.id("select-status")).element(by.cssContainingText('option', 'Active')).click();
-    expect(element(by.id("select-status")).getAttribute("value")).toBe("true");
+    expect(element(by.id("select-status")).getAttribute("value")).toBe("0: true");
   });
 
   it('able to change available seats', () => {
@@ -92,7 +92,7 @@ describe('test membership form', () => {
   it('available seats disabled when status is set to disabled', () => {
     element(by.id("select-status")).click();
     element(by.id("select-status")).element(by.cssContainingText('option', 'Disabled')).click();
-    expect(element(by.id("select-status")).getAttribute("value")).toBe("false");
+    expect(element(by.id("select-status")).getAttribute("value")).toBe("1: false");
     expect(element(by.id("select-seats-available")).getAttribute('disabled')).toBe("true");
   });
 
@@ -103,7 +103,7 @@ describe('test membership form', () => {
     page.getProfileGroupedContactInfoBtn().click();
     page.getProfileGroupedMembershipBtn().click();
     expect(element(by.id("select-role")).getAttribute("value")).toBe("false");
-    expect(element(by.id("select-status")).getAttribute("value")).toBe("false");
+    expect(element(by.id("select-status")).getAttribute("value")).toBe("1: false");
     expect(element(by.id("select-seats-available")).getAttribute("value")).toBe("1: 1");
 
   });
@@ -139,7 +139,7 @@ describe('test membership form', () => {
     browser.sleep(500);
     page.getProfileGroupedContactInfoBtn().click();
     page.getProfileGroupedMembershipBtn().click();
-    expect(element(by.id("select-status")).getAttribute("value")).toBe("true");
+    expect(element(by.id("select-status")).getAttribute("value")).toBe("0: true");
   });
 
   it('persisted - seats available changes saved', () => {
@@ -160,7 +160,7 @@ describe('test membership form', () => {
     page.getProfileContainerSubmitButton().click();
     browser.sleep(500);
     expect(element(by.id("select-seats-available")).getAttribute("value")).toBe("1: 1");
-    expect(element(by.id("select-status")).getAttribute("value")).toBe("false");
+    expect(element(by.id("select-status")).getAttribute("value")).toBe("1: false");
   });
 
   afterEach(async () => {

@@ -47,7 +47,9 @@ export class ProfileMembershipComponent implements OnInit {
     });
     this.carService.getCarByUserId2(sessionStorage.getItem("userid")).subscribe((response)=>{
       this.carObject = response;
-      this.possibleSeats = new Array(this.carObject.seats + 1).fill(0).map((x,i)=>i);
+      if (this.carObject != null) {
+        this.possibleSeats = new Array(this.carObject.seats + 1).fill(0).map((x,i)=>i);
+      }
     });
   }
   /**
