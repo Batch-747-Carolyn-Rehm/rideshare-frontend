@@ -24,6 +24,15 @@ describe('test landing page login form', () => {
     expect(element(by.id("login-modal-modal-title")).getText()).toEqual('Login');
   });
 
+  it('able to login as user', () => {
+    element(by.id("login-form-username-input")).sendKeys(page.getTestUser().userName);
+    page.getLoginFormLoginButton().click();
+    browser.sleep(4000);
+    browser.waitForAngularEnabled(false);
+    expect(element(by.xpath('/html/body/app-root/app-driver-list/div/div/div[1]/h4')).getText()).toBe("Driver's List");
+    browser.waitForAngularEnabled(true);
+  });
+
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
