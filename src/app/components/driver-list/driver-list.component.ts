@@ -208,7 +208,7 @@ export class DriverListComponent implements OnInit {
       this.loading = false;
       if (this.drivers.length > 0) {
         if (this.routes.length > 0) {
-          this.routes.map(r => r.setMap(null))
+          this.routes.forEach(r => r.setMap(null))
           this.routes = [];
         }
         this.showDriversOnMap(this.location, this.drivers);
@@ -217,7 +217,7 @@ export class DriverListComponent implements OnInit {
     }, ()=>{
       //404 status is returned if no drivers are found so error block is reached instead
       if (this.routes.length > 0) {
-        this.routes.map(r => r.setMap(null))
+        this.routes.forEach(r => r.setMap(null))
         this.routes = [];
       }
       this.drivers = [];
