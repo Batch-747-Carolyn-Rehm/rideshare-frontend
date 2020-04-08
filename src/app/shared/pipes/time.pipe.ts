@@ -25,24 +25,26 @@ export class TimePipe implements PipeTransform {
         case 'hh:mm:ss':
           if (hours === 0) hoursString = "00";
           else if (hours < 10) hoursString = `0${hours}`;
+          else hoursString = `${hours}`;
 
           if (minutes === 0) minutesString = "00";
           else if (minutes < 10) minutesString = `0${minutes}`;
+          else minutesString = `${minutes}`;
 
           if (seconds === 0) secondsString = "00";
           else if (seconds < 10) secondsString = `0${seconds}`;
+          else secondsString = `${seconds}`
 
           return `${hoursString}:${minutesString}:${secondsString}`
 
         case 'full':
-          if (hours > 1) hoursString = `${hours} hours`;
-          else if (hours === 1) hoursString = `${hours} hour`
+          hoursString = `${hours} hour`;
+          minutesString = `${minutes} minute`;
+          secondsString = `${seconds} second`;
 
-          if (minutes > 1) minutesString = `${minutes} minutes`;
-          else if (minutes === 1) minutesString = `${minutes} minute`;
-
-          if (seconds > 1) secondsString = `${seconds} seconds`;
-          else if (seconds === 1) secondsString = `${seconds} second`;
+          if (hours > 1) hoursString += "s";
+          if (minutes > 1) minutesString += "s";
+          if (seconds > 1) secondsString += "s";
 
           return `${hoursString} ${minutesString} ${secondsString}`;
 
@@ -52,6 +54,11 @@ export class TimePipe implements PipeTransform {
 
           if (minutes > 1) minutesString = `${minutes} mins`;
           else if (minutes === 1) minutesString = `${minutes} min`;
+
+          if (seconds > 1) secondsString = `${seconds} secs`;
+          else secondsString = `${seconds} sec`;
+
+          if (hours == 0 && minutes == 0) return `${secondsString}`
 
           return `${hoursString} ${minutesString}`.trim();
 

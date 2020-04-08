@@ -52,18 +52,6 @@
               <tr app-driver-list-entry class="list-entry" *ngFor="let driver of drivers" [driver]=driver></tr>
             </tbody>
           </table>
-          <nav aria-label="Driver list page navigation">
-            <ul class="pagination justify-content-end">
-              <li class="page-item" [ngClass]="pageNo === 1 ? 'disabled' : ''">
-                <button class="page-link" aria-disabled="pageNo === 1 ? true : false" (click)="onPrevious()">Previous</button>
-              </li>
-              <div class="spacer">
-              </div>
-              <li class="page-item" [ngClass]="{'disabled': drivers.length  < 5}">
-                <button class="page-link" aria-disabled="drivers.length < 5 ? true : false" (click)="onNext()">Next</button>
-              </li>
-            </ul>
-          </nav>
         </ng-template>
         <ng-template #noDrivers>
           <div class="row">
@@ -72,6 +60,18 @@
             </div>
           </div>
         </ng-template>
+        <nav aria-label="Driver list page navigation" *ngIf="(drivers.length === 5 && pageNo === 1) || pageNo > 1">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [ngClass]="pageNo === 1 ? 'disabled' : ''">
+                <button class="page-link" aria-disabled="pageNo === 1 ? true : false" (click)="onPrevious()"> <span aria-hidden="true">&laquo;</span> Previous</button>
+              </li>
+              <div class="spacer">
+              </div>
+              <li class="page-item" [ngClass]="{'disabled': drivers.length  < 5}">
+                <button class="page-link" aria-disabled="drivers.length < 5 ? true : false" (click)="onNext()">Next <span aria-hidden="true">&raquo;</span></button>
+              </li>
+            </ul>
+          </nav>
       </ng-template>
       <ng-template #showSpinner>
         <app-spinner></app-spinner>

@@ -55,7 +55,7 @@ export class GoogleMapsService {
               map(() => true)
             )
           } else {
-            console.log("Undefined API")
+            console.log("Undefined Google Maps API Key")
             return of(false);
           }
         })
@@ -73,17 +73,12 @@ export class GoogleMapsService {
             origin: origin,
             destination: destination,
             travelMode: google.maps.TravelMode.DRIVING
-          }, (results, status) => {
+          }, (result, status) => {
             if (status == google.maps.DirectionsStatus.OK) {
-              let route = new google.maps.DirectionsRenderer({
-                draggable: false,
-                map: this.map
-              });
-              route.setDirections(results);
-              observer.next(route)
+              observer.next(result)
             } else {
               console.log('Could not display directions due to: ' + status);
-              observer.next()
+              observer.error(result);
             }
             observer.complete();
           })
@@ -92,7 +87,7 @@ export class GoogleMapsService {
     )
   }
 
-  initMap(mapElement, mapProperties) {
+  initMap(mapElement, mapProperties): Observable<google.maps.Map> {
     this.isMapLoading$ = of(true);
     return this.isScriptLoaded().pipe(
       switchMap(() => {
