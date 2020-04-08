@@ -9,14 +9,7 @@ describe('test profile landing page', () => {
   });
 
   it('login as user and navigate to profile landing page, profile container loaded', () => {
-    browser.driver.manage().window().setSize(1800,720);
-    page.navigateTo();
-    page.getLoginButton().click();
-    element(by.id("login-form-username-input")).sendKeys("wviani");
-    page.getLoginFormLoginButton().click();
-    page.getNavDropDown().click();
-    browser.waitForAngularEnabled(false);
-    page.getNavProfileA().click();
+    page.navigateToProfile();
     expect(element(by.id("profile-container")).isPresent()).toBe(true);
   });
 

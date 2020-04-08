@@ -1,8 +1,41 @@
 import { browser, by, element } from 'protractor';
+import { User } from 'src/app/models/user';
 
 export class AppPage {
+
+  user: User = {
+    "userId": 44,
+      "userName": "nameless",
+      "batch": {
+          "batchNumber": 1,
+          "batchLocation": "Morgantown"
+      },
+      "firstName": "Name",
+      "lastName": "Name",
+      "email": "email@address.com",
+      "phoneNumber": "123 123 1234",
+      "isDriver": true,
+      "hAddress": "500 Yates St",
+      "hCity": "Arlington",
+      "hZip": 76010,
+      "hState": "TX",
+      "wAddress": null,
+      "wCity": null,
+      "wZip": null,
+      "wState": null,
+      "distance": 0.0,
+      "duration": 0.0,
+      "car": null,
+      "active": false,
+      "isAcceptingRides": false
+  };
+
   navigateTo() {
     return browser.get(browser.baseUrl) as Promise<any>;
+  }
+
+  getTestUser() {
+    return this.user;
   }
 
   getTitleText() {
@@ -20,6 +53,9 @@ export class AppPage {
   /*
   * nav buttons
   */
+  getNavDriverButton() {
+    return element(by.id("nav-driver-a"));
+  }
   getNavDropDown() {
     return element(by.id("navbarDropdown"));
   }
@@ -27,7 +63,7 @@ export class AppPage {
     return element(by.id("nav-profile-a"));
   }
   getNavLogoutA() {
-    return element(by.id("nav-logout-a"));
+    return element(by.id("logout-btn"));
   }
 
   /*
@@ -54,5 +90,18 @@ export class AppPage {
   }
   getProfileContainerSubmitButton() {
     return element(by.id("profile-container-submit-btn"));
+  }
+
+  navigateToProfile() {
+    this.navigateTo();
+    browser.driver.manage().window().setSize(1800,720);
+    this.navigateTo();
+    this.getLoginButton().click();
+    element(by.id("login-form-username-input")).sendKeys(this.user.userName);
+    this.getLoginFormLoginButton().click();
+    browser.sleep(1000);
+    this.getNavDropDown().click();
+    browser.waitForAngularEnabled(false);
+    this.getNavProfileA().click();
   }
 }

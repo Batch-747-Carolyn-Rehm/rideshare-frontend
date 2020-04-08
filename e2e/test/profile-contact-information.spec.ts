@@ -12,15 +12,7 @@ describe('test contact information form', () => {
   * tests to navigate the the profile page so that the tests can be conducted in the contact info view
   */
   it('login as user and navigate to profile landing page, profile container loaded', () => {
-    browser.driver.manage().window().setSize(1800,720);
-    page.navigateTo();
-    page.getLoginButton().click();
-    element(by.id("login-form-username-input")).sendKeys("wviani");
-    page.getLoginFormLoginButton().click();
-    browser.sleep(2000);
-    page.getNavDropDown().click();
-    browser.waitForAngularEnabled(false);
-    page.getNavProfileA().click();
+    page.navigateToProfile();
     expect(element(by.id("profile-container")).isPresent()).toBe(true);
   });
 
@@ -55,42 +47,46 @@ describe('test contact information form', () => {
   * tests to confirm data was pulled from db and ddisplayed
   */
   it('confirm users first name loaded in input', () => {
-    expect(element(by.id("f_name")).getAttribute("value")).toBe("Wain");
+    expect(element(by.id("f_name")).getAttribute("value")).toBe(page.getTestUser().firstName);
   });
 
   it('confirm users last name loaded in input', () => {
-    expect(element(by.id("l_name")).getAttribute("value")).toBe("Vian");
+    expect(element(by.id("l_name")).getAttribute("value")).toBe(page.getTestUser().lastName);
   });
 
   it('confirm users email loaded in input', () => {
-    expect(element(by.id("user_email")).getAttribute("value")).toBe("wviani@homestead.com");
+    expect(element(by.id("user_email")).getAttribute("value")).toBe(page.getTestUser().email);
   });
 
   it('confirm users phone loaded in input', () => {
-    expect(element(by.id("phone")).getAttribute("value")).toBe("704-338-2790");
+    expect(element(by.id("phone")).getAttribute("value")).toBe(page.getTestUser().phoneNumber);
   });
 
   /*
   * tests to asses user's ability to input data in the input fields
   */
   it('able to input data in first name input field', () => {
-    element(by.id("f_name")).sendKeys("test");
-    expect(element(by.id("f_name")).getAttribute("value")).toBe("Waintest");
+    element(by.id("f_name")).clear();
+    element(by.id("f_name")).sendKeys("testFName");
+    expect(element(by.id("f_name")).getAttribute("value")).toBe("testFName");
   });
 
   it('able to input data in last name input field', () => {
-    element(by.id("l_name")).sendKeys("test");
-    expect(element(by.id("l_name")).getAttribute("value")).toBe("Viantest");
+    element(by.id("l_name")).clear();
+    element(by.id("l_name")).sendKeys("testLName");
+    expect(element(by.id("l_name")).getAttribute("value")).toBe("testLName");
   });
 
   it('able to input data in email input field', () => {
-    element(by.id("user_email")).sendKeys("test");
-    expect(element(by.id("user_email")).getAttribute("value")).toBe("wviani@homestead.comtest");
+    element(by.id("user_email")).clear();
+    element(by.id("user_email")).sendKeys("test@email.com");
+    expect(element(by.id("user_email")).getAttribute("value")).toBe("test@email.com");
   });
 
   it('able to input data in the phone input field', () => {
-    expect(element(by.id("phone")).sendKeys("0000"));
-    expect(element(by.id("phone")).getAttribute("value")).toBe("704-338-27900000");
+    element(by.id("phone")).clear();
+    element(by.id("phone")).sendKeys("000 000 0000");
+    expect(element(by.id("phone")).getAttribute("value")).toBe("000 000 0000");
   });
 
   /*
@@ -99,10 +95,10 @@ describe('test contact information form', () => {
   it('not submit data and rout away, rout back, changes not persisted', () => {
     page.getProfileGroupedLocationBtn().click();
     page.getProfileGroupedContactInfoBtn().click();
-    expect(element(by.id("f_name")).getAttribute("value")).toBe("Wain");
-    expect(element(by.id("l_name")).getAttribute("value")).toBe("Vian");
-    expect(element(by.id("user_email")).getAttribute("value")).toBe("wviani@homestead.com");
-    expect(element(by.id("phone")).getAttribute("value")).toBe("704-338-2790")
+    expect(element(by.id("f_name")).getAttribute("value")).toBe(page.getTestUser().firstName);
+    expect(element(by.id("l_name")).getAttribute("value")).toBe(page.getTestUser().lastName);
+    expect(element(by.id("user_email")).getAttribute("value")).toBe(page.getTestUser().email);
+    expect(element(by.id("phone")).getAttribute("value")).toBe(page.getTestUser().phoneNumber);
   });
 
   /*
@@ -120,10 +116,10 @@ describe('test contact information form', () => {
     page.getProfileGroupedContactInfoBtn().click();
     expect(element(by.id("f_name")).getAttribute("value")).toBe("testName");
     element(by.id("f_name")).clear();
-    element(by.id("f_name")).sendKeys("Wain");
+    element(by.id("f_name")).sendKeys(page.getTestUser().firstName);
     page.getProfileContainerSubmitButton().click();
     browser.sleep(500);
-    expect(element(by.id("f_name")).getAttribute("value")).toBe("Wain");
+    expect(element(by.id("f_name")).getAttribute("value")).toBe(page.getTestUser().firstName);
   });
 
   it('persisted - last name changes saved', () => {
@@ -138,10 +134,10 @@ describe('test contact information form', () => {
     page.getProfileGroupedContactInfoBtn().click();
     expect(element(by.id("l_name")).getAttribute("value")).toBe("testLastName");
     element(by.id("l_name")).clear();
-    element(by.id("l_name")).sendKeys("Vian");
+    element(by.id("l_name")).sendKeys(page.getTestUser().lastName);
     page.getProfileContainerSubmitButton().click();
     browser.sleep(500);
-    expect(element(by.id("l_name")).getAttribute("value")).toBe("Vian");
+    expect(element(by.id("l_name")).getAttribute("value")).toBe(page.getTestUser().lastName);
   });
 
   it('persisted - email changes saved', () => {
@@ -156,10 +152,10 @@ describe('test contact information form', () => {
     page.getProfileGroupedContactInfoBtn().click();
     expect(element(by.id("user_email")).getAttribute("value")).toBe("test@email.com");
     element(by.id("user_email")).clear();
-    element(by.id("user_email")).sendKeys("wviani@homestead.com");
+    element(by.id("user_email")).sendKeys(page.getTestUser().email);
     page.getProfileContainerSubmitButton().click();
     browser.sleep(500);
-    expect(element(by.id("user_email")).getAttribute("value")).toBe("wviani@homestead.com");
+    expect(element(by.id("user_email")).getAttribute("value")).toBe(page.getTestUser().email);
   });
 
   it('persisted - phone changes saved', () => {
@@ -174,10 +170,10 @@ describe('test contact information form', () => {
     page.getProfileGroupedContactInfoBtn().click();
     expect(element(by.id("phone")).getAttribute("value")).toBe("5555555555");
     element(by.id("phone")).clear();
-    element(by.id("phone")).sendKeys("704-338-2790");
+    element(by.id("phone")).sendKeys(page.getTestUser().phoneNumber);
     page.getProfileContainerSubmitButton().click();
     browser.sleep(500);
-    expect(element(by.id("phone")).getAttribute("value")).toBe("704-338-2790");
+    expect(element(by.id("phone")).getAttribute("value")).toBe(page.getTestUser().phoneNumber);
   });
 
   afterEach(async () => {

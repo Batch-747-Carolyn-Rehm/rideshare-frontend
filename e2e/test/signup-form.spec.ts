@@ -33,7 +33,7 @@ describe('Sign up form tests', function(){
     let hZipField = element(by.id('hZip'));
     //let hZipError = element(by.id('hZipError'));
 
-    let driverField = element(by.id('driverLabel'));
+    let riderField = element(by.id('riderLabel'));
 
     it('try to sign up', function() {
         browser.get(browser.baseUrl);
@@ -63,7 +63,7 @@ describe('Sign up form tests', function(){
         hCityField.sendKeys('Arlington');
         hStateField.sendKeys('TX');
         hZipField.sendKeys('76010');
-        driverField.click();
+        riderField.click();
         //browser.sleep(90000);
         signUpSubmitButton.click();
         expect(element(by.xpath('/html/body/app-root/app-driver-list/div/div/div[1]/h4')).getText()).toBe("Driver's List");
