@@ -79,7 +79,7 @@
     </div>
     <div class="col-lg-6 col-xs-12">
       <h4>Directions:</h4>
-      <app-spinner *ngIf="map === 'null'"></app-spinner>
+      <app-spinner *ngIf="isMapLoading$ | async"></app-spinner>
       <div #map id="gmap" class="img-responsive"></div>
     </div>
   </div>

@@ -12,6 +12,7 @@ export class GoogleMapsService {
   private geocoder: google.maps.Geocoder = null;
   private directionService: google.maps.DirectionsService = null;
   private map: google.maps.Map = null;
+  isMapLoading$: Observable<boolean>;
 
   constructor(private http: HttpClient) { }
 
@@ -92,8 +93,10 @@ export class GoogleMapsService {
   }
 
   initMap(mapElement, mapProperties) {
+    this.isMapLoading$ = of(true);
     return this.isScriptLoaded().pipe(
       switchMap(() => {
+        this.isMapLoading$ = of(false);
         if(sessionStorage.getItem("lat") && sessionStorage.getItem("lng")) {
           const latLng = new google.maps.LatLng(Number(sessionStorage.getItem("lat")), Number(sessionStorage.getItem("lng")))
           mapProperties = {
@@ -103,6 +106,11 @@ export class GoogleMapsService {
         }
         
         return of(new google.maps.Map(mapElement.nativeElement, mapProperties));
+      }),
+      catchError(err => {
+        this.isMapLoading$ = of(false);
+        console.log(err)
+        return of(null);
       })
     );
   }

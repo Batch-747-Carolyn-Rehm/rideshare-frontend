@@ -49,6 +49,7 @@ export class DriverListComponent implements OnInit {
   routes = [];
   @ViewChild('map', null) mapElement: any;
   map: google.maps.Map = null;
+  isMapLoading$: Observable<boolean>;
 
   /**
    * This is a constructor
@@ -68,7 +69,7 @@ export class DriverListComponent implements OnInit {
   ngOnInit() {
     this.batches = this.batchService.getAllBatches();
     // this.getGoogleApi();
-
+    this.isMapLoading$ = this.googleMapsService.isMapLoading$;
     this.currentUserId = JSON.parse(sessionStorage.getItem("userid"));
     this.userService.getUserById2(this.currentUserId.toString()).pipe(tap(user => {
       this.currentUser = user;
