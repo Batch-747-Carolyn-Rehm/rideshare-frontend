@@ -1,7 +1,7 @@
 import { AppPage } from '../src/app.po';
 import { browser, logging, element, by } from 'protractor';
 
-describe('test contact information form', () => {
+describe('test car information form', () => {
   let page: AppPage;
 
   beforeEach(() => {
